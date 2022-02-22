@@ -1,7 +1,10 @@
 #include "Enemy.h"
 
 Enemy::Enemy() {
-
+	setType("Enemy");
+	setSprite("enemy");
+	df::Vector p(1, 10);
+	setPosition(p);
 }
 Enemy::~Enemy() {
 

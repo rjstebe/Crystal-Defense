@@ -2,7 +2,10 @@
 
 Crystal::Crystal()
 {
-
+	setType("Crystal");
+	setSprite("crystal");
+	df::Vector p(5, 10);
+	setPosition(p);
 }
 
 Crystal::~Crystal()

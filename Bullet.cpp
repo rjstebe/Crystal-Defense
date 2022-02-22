@@ -4,7 +4,10 @@
 
 
 Bullet::Bullet(df::Vector hero_pos) {
-
+	setType("Bullet");
+	setSprite("bullet");
+	df::Vector p(1, 5);
+	setPosition(p);
 }
 
 int Bullet::eventHandler(const df::Event* p_e) {

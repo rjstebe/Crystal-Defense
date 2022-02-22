@@ -11,12 +11,13 @@
 
 Hero::Hero() {
     setType("Hero");
+    setSprite("hero");
     // Set location to something
-    df::Vector p(7, WM.getBoundary().getVertical() / 2);
+    df::Vector p(1, 1);
     setPosition(p);
 
-    p_reticle = new Reticle();
-    p_reticle->draw();
+   /* p_reticle = new Reticle();
+    p_reticle->draw();*/
     move_slowdown = 2;
     move_countdown = move_slowdown;
     fire_slowdown = 15;
