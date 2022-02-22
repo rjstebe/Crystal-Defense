@@ -7,7 +7,7 @@
 #include "EventView.h"
 #include "EventMouse.h"
 #include "DisplayManager.h"
-
+#include "Aimer.h"
 
 Hero::Hero() {
     setType("Hero");
@@ -16,8 +16,8 @@ Hero::Hero() {
     df::Vector p(1, 1);
     setPosition(p);
 
-   /* p_reticle = new Reticle();
-    p_reticle->draw();*/
+    p_reticle = new Aimer;
+    //p_reticle->draw();
     move_slowdown = 2;
     move_countdown = move_slowdown;
     fire_slowdown = 15;
@@ -89,6 +89,7 @@ void Hero::fire(df::Vector target) {
 }
 
 void Hero::mouse(const df::EventMouse* p_mouse_event) {
+    LM.writeLog("Hero mouse event, %d %d", p_mouse_event->getMousePosition().getX(), p_mouse_event->getMousePosition().getY());
     if ((p_mouse_event->getMouseAction() == df::CLICKED) &&
         (p_mouse_event->getMouseButton() == df::Mouse::LEFT))
         fire(p_mouse_event->getMousePosition());

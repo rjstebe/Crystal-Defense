@@ -1,7 +1,7 @@
 #include "Object.h"
 #include "EventKeyboard.h"
 #include "EventMouse.h"
-#include "Reticle.h"
+#include "Aimer.h"
 
 class Hero : public df::Object {
 private:
@@ -15,7 +15,7 @@ private:
 	void step();
 	void fire(df::Vector target);
 	void mouse(const df::EventMouse* p_mouse_event);
-	Reticle* p_reticle;
+	Aimer* p_reticle;
 
 public:
 	Hero();
