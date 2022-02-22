@@ -3,6 +3,7 @@
 
 #include "LogManager.h"
 #include "DisplayManager.h"
+#include "ResourceManager.h"
 #include "InputManager.h"
 #include "WorldManager.h"
 #include "GameManager.h"
@@ -26,6 +27,9 @@ int df::GameManager::startUp() {
 	if (DM.startUp()) {
 		return -1;
 	}
+	if (RM.startUp()) {
+		return -1;
+	}
 	IM.startUp();
 	WM.startUp();
 	setType("GameManager");
@@ -40,6 +44,7 @@ void df::GameManager::shutDown() {
 	game_loop_count = 0;
 	WM.shutDown();
 	IM.shutDown();
+	RM.shutDown();
 	DM.shutDown();
 	LM.shutDown();
 }
