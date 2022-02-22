@@ -1,5 +1,7 @@
 *.log
 *.user
+*.filters
+*.vcxproj
 Debug/
 x64/
 .vs/
