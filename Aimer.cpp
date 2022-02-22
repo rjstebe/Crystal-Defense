@@ -4,6 +4,7 @@
 #include "WorldManager.h"
 #include "LogManager.h"
 #include "Vector.h"
+#include "utility.h"
 
 Aimer::Aimer() {
     setSolidness(df::SPECTRAL);
@@ -22,18 +23,12 @@ int Aimer::eventHandler(const df::Event* p_e) {
             dynamic_cast <const df::EventMouse*> (p_e);
         if (p_mouse_event->getMouseAction() == df::MOVED) {
             // Change location to new mouse position.
-            LM.writeLog("event, %d %d", p_mouse_event->getMousePosition().getX(), p_mouse_event->getMousePosition().getY());
-
             setPosition(p_mouse_event->getMousePosition());
-            draw();
             return 1;
         }
         if (p_mouse_event->getMouseAction() == df::CLICKED) {
             // Change location to new mouse position.
-            LM.writeLog("Click event, %d %d", p_mouse_event->getMousePosition().getX(), p_mouse_event->getMousePosition().getY());
-
-            setPosition(p_mouse_event->getMousePosition());
-            draw();
+            
             return 1;
         }
     }
@@ -43,7 +38,5 @@ int Aimer::eventHandler(const df::Event* p_e) {
 }
 
 int Aimer::draw() {
-    LM.writeLog("ret, %i %i", getPosition().getX(), getPosition().getY());
-    DM.drawCh(df::Vector(20,20), 'X', df::RED);
-    return DM.drawCh(getPosition(), AIMER_CHAR, df::RED);
+    return DM.drawCh(pixelsToSpaces(getPosition()), AIMER_CHAR, df::RED);
 }
