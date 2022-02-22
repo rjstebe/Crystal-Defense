@@ -4,7 +4,7 @@ Crystal::Crystal()
 {
 	setType("Crystal");
 	setSprite("crystal");
-	df::Vector p(5, 10);
+	df::Vector p(40, 10);
 	setPosition(p);
 }
 
