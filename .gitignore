@@ -2,6 +2,7 @@
 *.user
 *.filters
 *.vcxproj
+*.sln
 Debug/
 x64/
 .vs/
