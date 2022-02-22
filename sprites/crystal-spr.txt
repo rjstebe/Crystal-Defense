@@ -5,7 +5,7 @@ height 3
 color cyan
 slowdown 3
 </HEADER>
-<BODY> 
+<BODY>
 /-\
 | |
 \_/

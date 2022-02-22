@@ -10,4 +10,5 @@ slowdown 3
 end
 </BODY>
 <FOOTER>
+version 1
 </FOOTER>
