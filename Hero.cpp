@@ -1,20 +1,23 @@
 #include "Hero.h"
+
+// Engine includes.
 #include "LogManager.h"
 #include "ResourceManager.h"
+#include "DisplayManager.h"
 #include "WorldManager.h"
 #include "GameManager.h"
 #include "EventStep.h"
 #include "EventView.h"
 #include "EventMouse.h"
-#include "DisplayManager.h"
-#include "Aimer.h"
-#include "Bullet.h"
+
+// Game includes.
+#include "EventDamage.h"
 
 Hero::Hero() {
     setType("Hero");
     setSprite("hero");
     // Set location to something
-    df::Vector p(1, 1);
+    df::Vector p(20, 10);
     setPosition(p);
 
     p_reticle = new Aimer;
@@ -23,9 +26,7 @@ Hero::Hero() {
     move_countdown = move_slowdown;
     fire_slowdown = 15;
     fire_countdown = fire_slowdown;
-    health_count = 3;
-    setSpeed(1);
-    setVelocity(df::Vector(0, 0));
+    health_count = PLAYER_HEALTH;
 }
 
 Hero::~Hero() {
@@ -38,7 +39,6 @@ int Hero::eventHandler(const df::Event* p_e) {
         kbd(p_keyboard_event);
         return 1;
     }
-
     if (p_e->getType() == df::STEP_EVENT) {
         p_reticle->draw();
         step();
@@ -49,6 +49,10 @@ int Hero::eventHandler(const df::Event* p_e) {
             dynamic_cast <const df::EventMouse*> (p_e);
         mouse(p_mouse_event);
         return 1;
+    }
+    if (p_e->getType() == DAMAGE_EVENT) {
+        const EventDamage* p_ed = dynamic_cast<const EventDamage*>(p_e);
+        damaged(p_ed);
     }
     return 0;
 }
@@ -137,4 +141,13 @@ void Hero::mouse(const df::EventMouse* p_mouse_event) {
 void Hero::hit() {
         
     
+}
+
+// When damaged, update health and corresponding UI elements.
+void Hero::damaged(const EventDamage* p_ed) {
+    LM.writeLog(-5, "Crystal::eventHandler(): received damage event");
+    health_count -= p_ed->getDamage();
+    // Send view event to view.
+    df::EventView ev("health", -p_ed->getDamage(), true);
+    WM.onEvent(&ev);
 }
