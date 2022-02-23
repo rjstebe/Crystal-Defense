@@ -6,8 +6,10 @@
 Bullet::Bullet(df::Vector hero_pos) {
 	setType("Bullet");
 	setSprite("bullet");
-	df::Vector p(1, 5);
+	df::Vector p(hero_pos.getX(), hero_pos.getY());
 	setPosition(p);
+	setSpeed(1);
+	setSolidness(df::SOFT);
 }
 
 int Bullet::eventHandler(const df::Event* p_e) {
@@ -30,5 +32,18 @@ void Bullet::out() {
 }
 
 void Bullet::hit(const df::EventCollision* p_collision_event) {
-
+	if ((p_collision_event->getObject1()->getType() == "Enemy") ||
+		(p_collision_event->getObject2()->getType() == "Enemy")) {
+		WM.markForDelete(p_collision_event->getObject1());
+		WM.markForDelete(p_collision_event->getObject2());
+	}
+	if ((p_collision_event->getObject1()->getType() == "Wall") ||
+		(p_collision_event->getObject2()->getType() == "Wall")) {
+		if ((p_collision_event->getObject1()->getType()) == "Bullet") {
+			WM.markForDelete(p_collision_event->getObject1());
+		}
+		else {
+			WM.markForDelete(p_collision_event->getObject2());
+		}
+	}
 }

@@ -2,6 +2,9 @@
 #include "EventMouse.h"
 #include "DisplayManager.h"
 #include "WorldManager.h"
+#include "LogManager.h"
+#include "Vector.h"
+#include "utility.h"
 
 Reticle::Reticle() {
     setSolidness(df::SPECTRAL);
@@ -23,6 +26,11 @@ int Reticle::eventHandler(const df::Event* p_e) {
             setPosition(p_mouse_event->getMousePosition());
             return 1;
         }
+        if (p_mouse_event->getMouseAction() == df::CLICKED) {
+            // Change location to new mouse position.
+            
+            return 1;
+        }
     }
 
     // If get here, have ignored this event.
@@ -30,5 +38,5 @@ int Reticle::eventHandler(const df::Event* p_e) {
 }
 
 int Reticle::draw() {
-    return DM.drawCh(getPosition(), RETICLE_CHAR, df::RED);
+    return DM.drawCh(pixelsToSpaces(getPosition()), RETICLE_CHAR, df::RED);
 }
