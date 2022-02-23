@@ -8,6 +8,9 @@
 #include "EventStep.h"
 #include "EventCollision.h"
 
+// Game includes.
+#include "EventDamage.h"
+
 Enemy::Enemy() {
 	setType("Enemy");
 	setSprite("enemy");
@@ -42,18 +45,24 @@ void Enemy::hit(const df::EventCollision* p_collision_event) {
 		other = p_collision_event->getObject1();
 	}
 	if (other->getType() == "Crystal") {
-		LM.writeLog("Enemy::hit(): collided with Crystal");
+		LM.writeLog(-5, "Enemy::hit(): collided with Crystal");
+		if (attack_cooldown <= 0) {
+			LM.writeLog(-5, "Enemy::hit(): attacked Crystal");
+			EventDamage ed;
+			other->eventHandler(&ed);
+			attack_cooldown = attack_period;
+		}
 	}
 }
 
 // Each step, update cooldowns and move towards crystal
 void Enemy::step() {
+	// Update cooldowns
+	attack_cooldown--;
 	// Get crystal
 	df::ObjectList crystals = WM.objectsOfType("Crystal");
 	// If there is a crystal,
-	LM.writeLog("Enemy::step(): crystals.isEmpty: %d", crystals.isEmpty());
 	if (!crystals.isEmpty()) {
-		LM.writeLog("Enemy::step(): crystal has been found");
 		df::ObjectListIterator li = df::ObjectListIterator(&crystals);
 		li.first();
 		// Set direction towards crystal, and speed equal to the enemy's speed
@@ -61,5 +70,8 @@ void Enemy::step() {
 		dir.normalize();
 		setDirection(dir);
 		setSpeed(speed);
+	}
+	else {
+		LM.writeLog("Enemy::step(): Error: no Crystal in game world.");
 	}
 }
