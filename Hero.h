@@ -7,8 +7,6 @@ class Hero : public df::Object {
 private:
 	void kbd(const df::EventKeyboard* p_keyboard_event);
 	void move(int dx, int dy);
-	int x_dir;
-	int y_dir;
 	int move_slowdown;
 	int move_countdown;
 	int fire_slowdown;

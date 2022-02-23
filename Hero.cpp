@@ -8,6 +8,7 @@
 #include "EventMouse.h"
 #include "DisplayManager.h"
 #include "Aimer.h"
+#include "Bullet.h"
 
 Hero::Hero() {
     setType("Hero");
@@ -15,8 +16,7 @@ Hero::Hero() {
     // Set location to something
     df::Vector p(1, 1);
     setPosition(p);
-    x_dir = 0;
-    y_dir = 0;
+
     p_reticle = new Aimer;
     p_reticle->draw();
     move_slowdown = 2;
@@ -24,6 +24,8 @@ Hero::Hero() {
     fire_slowdown = 15;
     fire_countdown = fire_slowdown;
     health_count = 3;
+    setSpeed(1);
+    setVelocity(df::Vector(0, 0));
 }
 
 Hero::~Hero() {
@@ -63,27 +65,27 @@ void Hero::kbd(const df::EventKeyboard* p_keyboard_event) {
         break;
     case df::Keyboard::W:    // up
         if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN)
-            y_dir = -1;
+            setVelocity(df::Vector(getVelocity().getX(), -1));
         else
-            y_dir = 0;
+            setVelocity(df::Vector(getVelocity().getX(), 0));
         break;
     case df::Keyboard::S:    // down
         if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN)
-            y_dir = 1;
+            setVelocity(df::Vector(getVelocity().getX(), 1));
         else
-            y_dir = 0;
+            setVelocity(df::Vector(getVelocity().getX(), 0));
         break;
     case df::Keyboard::A:    // up
         if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN)
-            x_dir = -1;
+            setVelocity(df::Vector(-1, getVelocity().getY()));
         else
-            x_dir = 0;
+            setVelocity(df::Vector(0, getVelocity().getY()));
         break;
     case df::Keyboard::D:    // up
         if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN)
-            x_dir = 1;
+            setVelocity(df::Vector(1, getVelocity().getY()));
         else
-            x_dir = 0;
+            setVelocity(df::Vector(0, getVelocity().getY()));
         break;
 
     }
@@ -98,7 +100,7 @@ void Hero::move(int dx, int dy) {
 }
 
 void Hero::step() {
-    move(x_dir, y_dir);
+
     // Move countdown.
     move_countdown--;
     if (move_countdown < 0)
@@ -109,17 +111,30 @@ void Hero::step() {
 }
 
 void Hero::fire(df::Vector target) {
-
+    if (fire_countdown > 0)
+        return;
+    fire_countdown = fire_slowdown;
+    df::Vector v = target - getPosition();
+    v.normalize();
+    v.scale(1);
+    Bullet* p = new Bullet(getPosition());
+    p->setVelocity(v);
+    // Play "fire" sound.
+    //df::Sound* p_sound = RM.getSound("fire");
+    //p_sound->play();
 }
 
 void Hero::mouse(const df::EventMouse* p_mouse_event) {
-    LM.writeLog("Hero mouse event, %d %d", p_mouse_event->getMousePosition().getX(), p_mouse_event->getMousePosition().getY());
+
     p_reticle->draw();
     if ((p_mouse_event->getMouseAction() == df::CLICKED) &&
-        (p_mouse_event->getMouseButton() == df::Mouse::LEFT))
-        fire(p_mouse_event->getMousePosition());
+        (p_mouse_event->getMouseButton() == df::Mouse::LEFT)) {
+        fire(pixelsToSpaces(p_reticle->getPosition()));
+    }
+        
 }
 
 void Hero::hit() {
-
+        
+    
 }
