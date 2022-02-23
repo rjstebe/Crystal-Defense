@@ -1,7 +1,10 @@
 #include "Object.h"
 #include "EventKeyboard.h"
 #include "EventMouse.h"
+#include "EventDamage.h"
 #include "Reticle.h"
+
+const int PLAYER_HEALTH = 10;
 
 class Hero : public df::Object {
 private:
@@ -15,6 +18,7 @@ private:
 	void step();
 	void fire(df::Vector target);
 	void mouse(const df::EventMouse* p_mouse_event);
+	void damaged(const EventDamage* p_ed);
 	Reticle* p_reticle;
 
 public:
