@@ -27,10 +27,15 @@ int main(int argc, char* argv[]) {
     RM.loadSprite("sprites/wall-spr.txt", "wall");
     
     df::ViewObject* crystal_health = new df::ViewObject();
-    crystal_health->setColor(df::RED);
+    crystal_health->setColor(df::CYAN);
     crystal_health->setLocation(df::TOP_LEFT);
-    crystal_health->setViewString("crystal health");
+    crystal_health->setViewString("crystal");
     crystal_health->setValue(CRYSTAL_HEALTH);
+    df::ViewObject* player_health = new df::ViewObject();
+    player_health->setColor(df::RED);
+    player_health->setLocation(df::TOP_CENTER);
+    player_health->setViewString("health");
+    player_health->setValue(PLAYER_HEALTH);
     new Hero;
     new Crystal;
     new Enemy;

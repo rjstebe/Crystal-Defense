@@ -1,16 +1,20 @@
 #include "Object.h"
 
 // Engine includes.
+
+// Engine includes.
 #include "EventCollision.h"
 #include "ViewObject.h"
+
+// Game includes.
+#include "EventDamage.h"
 
 const int CRYSTAL_HEALTH = 100;
 
 class Crystal : public df::Object {
 private:
-    void hit(const df::EventCollision* p_collision_event);
+    void damaged(const EventDamage* p_ed);
     int health = CRYSTAL_HEALTH;
-    df::ViewObject* health_tracker = NULL;
 public:
     Crystal();
     ~Crystal();

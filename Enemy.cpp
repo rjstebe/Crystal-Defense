@@ -44,10 +44,10 @@ void Enemy::hit(const df::EventCollision* p_collision_event) {
 	else {
 		other = p_collision_event->getObject1();
 	}
-	if (other->getType() == "Crystal") {
-		LM.writeLog(-5, "Enemy::hit(): collided with Crystal");
+	if (other->getType() == "Crystal" || other->getType() == "Hero") {
+		LM.writeLog(-5, "Enemy::hit(): collided with Crystal or Hero");
 		if (attack_cooldown <= 0) {
-			LM.writeLog(-5, "Enemy::hit(): attacked Crystal");
+			LM.writeLog(-5, "Enemy::hit(): attacked Crystal or Hero");
 			EventDamage ed;
 			other->eventHandler(&ed);
 			attack_cooldown = attack_period;

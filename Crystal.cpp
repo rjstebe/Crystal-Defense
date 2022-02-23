@@ -28,16 +28,16 @@ int Crystal::eventHandler(const df::Event* p_e)
 	LM.writeLog(-5, "Crystal::eventHandler(): event type: %s", p_e->getType().c_str());
 	if (p_e->getType() == DAMAGE_EVENT) {
 		const EventDamage* p_ed = dynamic_cast<const EventDamage*>(p_e);
-		LM.writeLog(-5, "Crystal::eventHandler(): received damage event");
-		health -= p_ed->getDamage();
-		// send view event to view
-		df::EventView ev("crystal health", -p_ed->getDamage(), true);
-		WM.onEvent(&ev);
+		damaged(p_ed);
 	}
 	return 0;
 }
 
-void Crystal::hit(const df::EventCollision* p_collision_event)
-{
-
+// When damaged, update health and corresponding UI elements.
+void Crystal::damaged(const EventDamage* p_ed) {
+	LM.writeLog(-5, "Crystal::eventHandler(): received damage event");
+	health -= p_ed->getDamage();
+	// Send view event to view.
+	df::EventView ev("crystal", -p_ed->getDamage(), true);
+	WM.onEvent(&ev);
 }
