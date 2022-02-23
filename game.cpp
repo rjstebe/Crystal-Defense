@@ -15,6 +15,8 @@
 #include "Bullet.h"
 #include "Wall.h"
 #include "Enemy.h"
+#include "HealthPowerUp.h"
+#include "FireratePowerUp.h"
 
 int main(int argc, char* argv[]) {
     GM.startUp();
@@ -25,6 +27,8 @@ int main(int argc, char* argv[]) {
     RM.loadSprite("sprites/enemy-spr.txt", "enemy");
     RM.loadSprite("sprites/bullet-spr.txt", "bullet");
     RM.loadSprite("sprites/wall-spr.txt", "wall");
+    RM.loadSprite("sprites/health-powerup-spr.txt", "healthpowerup");
+    RM.loadSprite("sprites/firerate-powerup-spr.txt", "fireratepowerup");
     
     df::ViewObject* crystal_health = new df::ViewObject();
     crystal_health->setColor(df::CYAN);
@@ -39,6 +43,8 @@ int main(int argc, char* argv[]) {
     new Hero;
     new Crystal;
     new Enemy;
+    new HealthPowerUp;
+    new FireratePowerUp;
     new Bullet(df::Vector(0, 0));
     new Wall;
     GM.run();

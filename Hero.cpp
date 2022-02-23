@@ -9,6 +9,7 @@
 #include "EventStep.h"
 #include "EventView.h"
 #include "EventMouse.h"
+#include "EventCollision.h"
 
 // Game includes.
 #include "EventDamage.h"
@@ -52,6 +53,13 @@ int Hero::eventHandler(const df::Event* p_e) {
     if (p_e->getType() == DAMAGE_EVENT) {
         const EventDamage* p_ed = dynamic_cast<const EventDamage*>(p_e);
         damaged(p_ed);
+        return 1;
+    }
+    if (p_e->getType() == df::COLLISION_EVENT) {
+        const df::EventCollision* p_collision_event =
+            dynamic_cast <const df::EventCollision*> (p_e);
+        hit(p_collision_event);
+        return 1;
     }
     return 0;
 }
@@ -101,15 +109,28 @@ void Hero::mouse(const df::EventMouse* p_mouse_event) {
         fire(p_mouse_event->getMousePosition());
 }
 
-void Hero::hit() {
-
+void Hero::hit(const df::EventCollision* p_collision_event) {
+    df::Object* other;
+    if (p_collision_event->getObject1()->getType() == "Hero") {
+        other = p_collision_event->getObject2();
+    }
+    else {
+        other = p_collision_event->getObject1();
+    }
+    
 }
 
 // When damaged, update health and corresponding UI elements.
 void Hero::damaged(const EventDamage* p_ed) {
-    LM.writeLog(-5, "Crystal::eventHandler(): received damage event");
+    LM.writeLog(-5, "Crystal::eventHandler(): received damage event: damage: %d", p_ed->getDamage());
     health_count -= p_ed->getDamage();
     // Send view event to view.
     df::EventView ev("health", -p_ed->getDamage(), true);
     WM.onEvent(&ev);
+}
+
+// Upgrades the players fire rate by reducing the slowdown.
+int Hero::firerateUpgrade() {
+    fire_slowdown *= 0.75;
+    return fire_slowdown;
 }

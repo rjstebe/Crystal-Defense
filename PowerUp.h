@@ -1,9 +1,11 @@
+#pragma once
+
 #include "Object.h"
 #include "EventCollision.h"
 
 class PowerUp : public df::Object {
-private:
-    void hit(const df::EventCollision* p_collision_event);
+protected:
+    virtual void hit(const df::EventCollision* p_collision_event);
 
 public:
     PowerUp();

@@ -2,6 +2,7 @@
 #include "EventKeyboard.h"
 #include "EventMouse.h"
 #include "EventDamage.h"
+#include "EventCollision.h"
 #include "Reticle.h"
 
 const int PLAYER_HEALTH = 10;
@@ -19,11 +20,12 @@ private:
 	void fire(df::Vector target);
 	void mouse(const df::EventMouse* p_mouse_event);
 	void damaged(const EventDamage* p_ed);
+	void hit(const df::EventCollision* p_collision_event);
 	Reticle* p_reticle;
 
 public:
 	Hero();
 	~Hero();
 	int eventHandler(const df::Event* p_e) override;
-	void hit();
+	int firerateUpgrade();
 };
