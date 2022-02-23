@@ -12,7 +12,7 @@
 
 // Game includes.
 #include "EventDamage.h"
-
+#include "Bullet.h"
 Hero::Hero() {
     setType("Hero");
     setSprite("hero");
@@ -20,7 +20,7 @@ Hero::Hero() {
     df::Vector p(20, 10);
     setPosition(p);
 
-    p_reticle = new Aimer;
+    p_reticle = new Reticle;
     p_reticle->draw();
     move_slowdown = 2;
     move_countdown = move_slowdown;

@@ -1,12 +1,12 @@
 #include "Object.h"
-#ifndef __AIMER_H__
-#define __AIMER_H__
-#define AIMER_CHAR '+'
+#ifndef __RETICLE_H__
+#define __RETICLE_H__
+#define RETICLE_CHAR '+'
 
-class Aimer : public df::Object {
+class Reticle : public df::Object {
 
 public:
-    Aimer();
+    Reticle();
     int draw(void) override;
     int eventHandler(const df::Event* p_e) override;
 };

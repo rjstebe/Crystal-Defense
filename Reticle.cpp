@@ -1,4 +1,4 @@
-#include "Aimer.h"
+#include "Reticle.h"
 #include "EventMouse.h"
 #include "DisplayManager.h"
 #include "WorldManager.h"
@@ -6,7 +6,7 @@
 #include "Vector.h"
 #include "utility.h"
 
-Aimer::Aimer() {
+Reticle::Reticle() {
     setSolidness(df::SPECTRAL);
     setAltitude(df::MAX_ALTITUDE);
 
@@ -16,7 +16,7 @@ Aimer::Aimer() {
     setPosition(p);
 }
 
-int Aimer::eventHandler(const df::Event* p_e) {
+int Reticle::eventHandler(const df::Event* p_e) {
 
     if (p_e->getType() == df::MSE_EVENT) {
         const df::EventMouse* p_mouse_event =
@@ -37,6 +37,6 @@ int Aimer::eventHandler(const df::Event* p_e) {
     return 0;
 }
 
-int Aimer::draw() {
-    return DM.drawCh(pixelsToSpaces(getPosition()), AIMER_CHAR, df::RED);
+int Reticle::draw() {
+    return DM.drawCh(pixelsToSpaces(getPosition()), RETICLE_CHAR, df::RED);
 }
