@@ -60,27 +60,28 @@ int df::DisplayManager::drawCh(Vector world_pos, char ch, Color color) const {
 	static sf::RectangleShape rectangle;
 	rectangle.setSize(sf::Vector2f(charWidth(), charHeight()));
 	rectangle.setFillColor(m_window_background_color);
-	rectangle.setPosition(pixel_pos.getX() - charWidth() / 10, pixel_pos.getY() + charHeight() / 5);
+	rectangle.setPosition(pixel_pos.getX(), pixel_pos.getY());
 	m_p_window->draw(rectangle);
 		
 	// Create character text to draw.
 	static sf::Text text(" ", m_font);
 	text.setString(ch);
 	text.setStyle(sf::Text::Bold); // Make bold, since looks better.
+	text.setScale(sf::Vector2f(1.8, 1));
 		
 	// Scale to right size.
 	if (charWidth() < charHeight()) {
 		text.setCharacterSize(charWidth() * 2);
 	}
 	else {
-		text.setCharacterSize(charHeight() * 2);
+		text.setCharacterSize(charWidth());
 	}
 		
 	// Set SFML color based on Dragonfly color.
 	text.setFillColor(df::DFColorToSFMLColor(color));
 
 	// Set position in window (in pixels).
-	text.setPosition(pixel_pos.getX(), pixel_pos.getY());
+	text.setPosition(pixel_pos.getX() + charWidth() / 10, pixel_pos.getY() - charHeight() / 5);
 		
 	// Draw character.
 	m_p_window->draw(text);
