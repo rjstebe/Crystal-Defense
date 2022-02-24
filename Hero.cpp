@@ -20,7 +20,7 @@ Hero::Hero() {
     // Set location to something
     df::Vector p(20, 10);
     setPosition(p);
-
+    setSolidness(df::SOFT);
     p_reticle = new Reticle;
     p_reticle->draw();
     move_slowdown = 2;
