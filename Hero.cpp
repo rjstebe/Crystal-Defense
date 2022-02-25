@@ -22,7 +22,6 @@ Hero::Hero() {
     setPosition(p);
     setSolidness(df::SOFT);
     p_reticle = new Reticle;
-    p_reticle->draw();
     move_slowdown = 2;
     move_countdown = move_slowdown;
     fire_slowdown = 15;
@@ -41,7 +40,6 @@ int Hero::eventHandler(const df::Event* p_e) {
         return 1;
     }
     if (p_e->getType() == df::STEP_EVENT) {
-        p_reticle->draw();
         step();
         return 1;
     }
@@ -69,37 +67,30 @@ int Hero::eventHandler(const df::Event* p_e) {
 void Hero::kbd(const df::EventKeyboard* p_keyboard_event) {
 // ADD MORE SWITCH CASES
     switch (p_keyboard_event->getKey()) {
-
-    case df::Keyboard::Q:			// quit
-        if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
-            WM.markForDelete(this);
-        }
-        break;
     case df::Keyboard::W:    // up
-        if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN)
+        if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
             setVelocity(df::Vector(getVelocity().getX(), -1));
-        else
+        else if (p_keyboard_event->getKeyboardAction() == df::KEY_RELEASED)
             setVelocity(df::Vector(getVelocity().getX(), 0));
         break;
     case df::Keyboard::S:    // down
-        if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN)
+        if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
             setVelocity(df::Vector(getVelocity().getX(), 1));
-        else
+        else if (p_keyboard_event->getKeyboardAction() == df::KEY_RELEASED)
             setVelocity(df::Vector(getVelocity().getX(), 0));
         break;
-    case df::Keyboard::A:    // up
-        if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN)
+    case df::Keyboard::A:    // left
+        if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
             setVelocity(df::Vector(-1, getVelocity().getY()));
-        else
+        else if (p_keyboard_event->getKeyboardAction() == df::KEY_RELEASED)
             setVelocity(df::Vector(0, getVelocity().getY()));
         break;
-    case df::Keyboard::D:    // up
-        if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN)
+    case df::Keyboard::D:    // right
+        if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED)
             setVelocity(df::Vector(1, getVelocity().getY()));
-        else
+        else if (p_keyboard_event->getKeyboardAction() == df::KEY_RELEASED)
             setVelocity(df::Vector(0, getVelocity().getY()));
         break;
-
     }
 }
 
@@ -112,7 +103,6 @@ void Hero::move(int dx, int dy) {
 }
 
 void Hero::step() {
-
     // Move countdown.
     move_countdown--;
     if (move_countdown < 0)
@@ -137,23 +127,13 @@ void Hero::fire(df::Vector target) {
 }
 
 void Hero::mouse(const df::EventMouse* p_mouse_event) {
-
-    p_reticle->draw();
-    if ((p_mouse_event->getMouseAction() == df::CLICKED) &&
+    if ((p_mouse_event->getMouseAction() == df::PRESSED) &&
         (p_mouse_event->getMouseButton() == df::Mouse::LEFT)) {
         fire(pixelsToSpaces(p_reticle->getPosition()));
     }
-        
 }
 
 void Hero::hit(const df::EventCollision* p_collision_event) {
-    df::Object* other;
-    if (p_collision_event->getObject1()->getType() == "Hero") {
-        other = p_collision_event->getObject2();
-    }
-    else {
-        other = p_collision_event->getObject1();
-    }
     
 }
 
