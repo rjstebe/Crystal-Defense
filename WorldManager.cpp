@@ -312,6 +312,7 @@ void df::WorldManager::draw() {
 	// For each altitude from 0 to MAX_ALTITUDE,
 	for (int alt = 0; alt <= MAX_ALTITUDE; alt++) {
 		// Draw each object at the current altitude.
+		LM.writeLog(-10, "df::WorldManager::draw(): drawing objects at altitude %d", alt);
 		for (li.first(); !li.isDone(); li.next()) {
 			if (li.currentObject()->getAltitude() == alt) {
 				// Normal draw.

@@ -20,7 +20,7 @@
 
 int main(int argc, char* argv[]) {
     GM.startUp();
-    //LM.setLogLevel(-5);
+    //LM.setLogLevel(-10);
     LM.setFlush();
     RM.loadSprite("sprites/hero-spr.txt", "hero");
     RM.loadSprite("sprites/crystal-spr.txt", "crystal");

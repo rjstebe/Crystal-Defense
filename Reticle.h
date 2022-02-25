@@ -7,8 +7,8 @@ class Reticle : public df::Object {
 
 public:
     Reticle();
-    int draw(void) override;
+    int draw() override;
     int eventHandler(const df::Event* p_e) override;
 };
-#endif // !__AIMER_H__
+#endif // !__RETICLE_H__
 

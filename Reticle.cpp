@@ -17,26 +17,20 @@ Reticle::Reticle() {
 }
 
 int Reticle::eventHandler(const df::Event* p_e) {
-
     if (p_e->getType() == df::MSE_EVENT) {
         const df::EventMouse* p_mouse_event =
             dynamic_cast <const df::EventMouse*> (p_e);
         if (p_mouse_event->getMouseAction() == df::MOVED) {
             // Change location to new mouse position.
-            setPosition(p_mouse_event->getMousePosition());
-            return 1;
-        }
-        if (p_mouse_event->getMouseAction() == df::CLICKED) {
-            // Change location to new mouse position.
-            
+            setPosition(pixelsToSpaces(p_mouse_event->getMousePosition()));
             return 1;
         }
     }
-
     // If get here, have ignored this event.
     return 0;
 }
 
 int Reticle::draw() {
-    return DM.drawCh(pixelsToSpaces(getPosition()), RETICLE_CHAR, df::RED);
+    LM.writeLog(-10, "Reticle::draw(): drew reticle");
+    return DM.drawCh(getPosition(), RETICLE_CHAR, df::RED);
 }
