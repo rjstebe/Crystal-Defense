@@ -22,6 +22,11 @@ df::ViewObject::ViewObject() {
 	setColor(COLOR_DEFAULT);
 }
 
+// Return whether object should be drawn when off screen.
+bool df::ViewObject::getDrawWhenOffScreen() const {
+	return true;
+}
+
 // Draw view string and value.
 int df::ViewObject::draw() {
 	// Display view_string + value.

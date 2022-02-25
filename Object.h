@@ -49,6 +49,9 @@ public:
 	// Get type identifier of Object.
 	std::string getType() const;
 
+	// Return whether object should be drawn when off screen.
+	virtual bool getDrawWhenOffScreen() const;
+
 	// Set position of Object.
 	void setPosition(Vector new_pos);
 

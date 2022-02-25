@@ -129,7 +129,7 @@ void Hero::fire(df::Vector target) {
 void Hero::mouse(const df::EventMouse* p_mouse_event) {
     if ((p_mouse_event->getMouseAction() == df::PRESSED) &&
         (p_mouse_event->getMouseButton() == df::Mouse::LEFT)) {
-        fire(pixelsToSpaces(p_reticle->getPosition()));
+        fire(WM.getView().getCorner() + pixelsToSpaces(p_reticle->getPosition()));
     }
 }
 

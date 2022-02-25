@@ -1,9 +1,9 @@
-#include "Object.h"
+#include "ViewObject.h"
 #ifndef __RETICLE_H__
 #define __RETICLE_H__
 #define RETICLE_CHAR '+'
 
-class Reticle : public df::Object {
+class Reticle : public df::ViewObject {
 
 public:
     Reticle();

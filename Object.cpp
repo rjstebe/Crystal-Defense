@@ -46,6 +46,11 @@ std::string df::Object::getType() const {
 	return type;
 }
 
+// Return whether object should be drawn when off screen.
+bool df::Object::getDrawWhenOffScreen() const {
+	return false;
+}
+
 // Set position of object.
 void df::Object::setPosition(Vector new_pos) {
 	pos = new_pos;

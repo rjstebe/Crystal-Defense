@@ -38,6 +38,9 @@ public:
 	// Object settings: SPECTRAL, max alt.
 	// ViewObject defaults: border, top_center, default color, draw_value.
 	ViewObject();
+
+	// Return whether object should be drawn when off screen.
+	bool getDrawWhenOffScreen() const override;
 	
 	// Draw view string and value.
 	virtual int draw() override;

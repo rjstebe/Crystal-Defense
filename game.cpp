@@ -6,6 +6,7 @@
 #include "LogManager.h"
 #include "GameManager.h"
 #include "ResourceManager.h"
+#include "WorldManager.h"
 #include "Object.h"
 #include "ViewObject.h"
 #include "Vector.h"
@@ -40,7 +41,7 @@ int main(int argc, char* argv[]) {
     player_health->setLocation(df::TOP_CENTER);
     player_health->setViewString("health");
     player_health->setValue(PLAYER_HEALTH);
-    new Hero;
+    Hero* p_hero = new Hero();
     new Crystal;
     new Enemy;
     new HealthPowerUp;
@@ -49,6 +50,8 @@ int main(int argc, char* argv[]) {
     new Wall(df::Vector(5, 5), df::Vector(10, 5));
     new Wall(df::Vector(25, 5), df::Vector(15, 5));
     new Wall(df::Vector(5, 5), df::Vector(5, 15));
+    WM.setViewFollowing(p_hero);
+    WM.setBoundary(df::Box(df::Vector(-100, -100), 200, 200));
     GM.run();
 
     GM.shutDown();

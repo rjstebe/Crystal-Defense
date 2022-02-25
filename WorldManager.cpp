@@ -323,7 +323,7 @@ void df::WorldManager::draw() {
 				Box temp_box = getWorldBox(p_temp_o);
 				
 				// Only draw if Object would be visible on window (intersects view).
-				if (boxIntersectsBox(temp_box, view)) {
+				if (boxIntersectsBox(temp_box, view) || p_temp_o->getDrawWhenOffScreen()) {
 					p_temp_o->draw();
 				}
 			}
