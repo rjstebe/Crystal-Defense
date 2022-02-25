@@ -11,17 +11,16 @@ class Hero : public df::Object {
 private:
 	void kbd(const df::EventKeyboard* p_keyboard_event);
 	void move(int dx, int dy);
-	int move_slowdown;
-	int move_countdown;
-	int fire_slowdown;
-	int fire_countdown;
-	int health_count;
+	float move_speed = 0.5;
+	int fire_slowdown = 15;
+	int fire_countdown = fire_slowdown;
+	int health_count = PLAYER_HEALTH;
 	void step();
 	void fire(df::Vector target);
 	void mouse(const df::EventMouse* p_mouse_event);
 	void damaged(const EventDamage* p_ed);
 	void hit(const df::EventCollision* p_collision_event);
-	Reticle* p_reticle;
+	Reticle* p_reticle = new Reticle;
 
 public:
 	Hero();
