@@ -77,11 +77,16 @@ Room* EnemyManager::getRoomByChar(char room_name) {
 	return NULL;
 }
 
-// Adds a new room with a char name, and the given transform, returns -1 if room with that name already
-// exists, or insert fails, 0 otherwise.
-int EnemyManager::addRoom(char room_name, df::Box transform) {
+// Adds a new room with a char name, and the given transform, returns a pointer to the created room,
+// or NULL if it cannot be added.
+Room* EnemyManager::addRoom(char room_name, df::Box transform) {
 	if (getRoomByChar(room_name) != NULL) {
-		return -1;
+		return NULL;
 	}
-	return rooms.insert(new Room(room_name, transform));
+	Room* p_room = new Room(room_name, transform);
+	int a = rooms.insert(p_room);
+	if (a != 0) {
+		return NULL;
+	}
+	return p_room;
 }

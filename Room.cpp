@@ -17,7 +17,7 @@ Room::Room(char new_name, df::Box new_transform) {
 // char name. Should only be called if a route to the given room has definitely been established as there
 // is no error checking, and will otherwise throw an unhandled exception.
 df::Vector Room::getExitPositionToRoom(char room_name) {
-	return director_map.at(room_name);
+	return director_map[room_name];
 }
 
 // Returns whether the given position is within the confines of the room.
@@ -27,8 +27,8 @@ bool Room::isInRoom(df::Vector position) {
 	float roomY = corner.getY();
 	float x = position.getX();
 	float y = position.getY();
-	if (roomX <= x && roomX + transform.getHorizontal() > x &&
-		roomY <= y && roomY + transform.getVertical() > y) {
+	if (roomX <= x && roomX + transform.getHorizontal() >= x &&
+		roomY <= y && roomY + transform.getVertical() >= y) {
 		return true;
 	}
 	return false;
@@ -47,11 +47,11 @@ int Room::addRoute(char room_name, df::Vector exit_position) {
 		return -1;
 	}
 
-	if (EM.getRoomByChar(room_name) != NULL) {
+	if (EM.getRoomByChar(room_name) == NULL) {
 		return -1;
 	}
 
-	director_map.insert(std::pair<char, df::Vector>(room_name, exit_position));
+	director_map[room_name] = exit_position;
 	LM.writeLog(-10, "Added connection from room %s to room %s via (%f, %f)", std::string(1, name).c_str(), std::string(1, room_name).c_str(), exit_position.getX(), exit_position.getY());
 }
 

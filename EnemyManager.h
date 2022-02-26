@@ -45,8 +45,8 @@ public:
 	// Get a pointer to the room object associated with the given character if it exists.
 	Room* getRoomByChar(char room_name);
 
-	// Adds a new room with a char name, and the given transform, returns -1 if room with that name already
-	// exists, 0 otherwise.
-	int addRoom(char room_name, df::Box transform);
+	// Adds a new room with a char name, and the given transform, returns a pointer to the created room,
+	// or NULL if it cannot be added.
+	Room* addRoom(char room_name, df::Box transform);
 };
 
