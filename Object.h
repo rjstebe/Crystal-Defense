@@ -29,6 +29,8 @@ private:
 	Box m_box = Box(Vector(-0.5, -0.5), 0.99, 0.99); // Box for sprite boundary & collisions.
 
 public:
+	bool dont_move_this_frame = false; // Whether or not to move this object this frame.
+
 	// Construct Object. Set default parameters and
 	// add to game world (WorldManager).
 	Object();

@@ -49,6 +49,8 @@ void Enemy::hit(const df::EventCollision* p_collision_event) {
 	}
 	if (other->getType() == "Crystal" || other->getType() == "Hero") {
 		LM.writeLog(-5, "Enemy::hit(): collided with Crystal or Hero");
+		// Prevent enemy from moving this frame due to collision
+		dont_move_this_frame = true;
 		if (attack_cooldown <= 0) {
 			LM.writeLog(-5, "Enemy::hit(): attacked Crystal or Hero");
 			EventDamage ed;
