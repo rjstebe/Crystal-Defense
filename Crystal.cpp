@@ -15,6 +15,12 @@ Crystal::Crystal()
 	setSprite("crystal");
 	df::Vector p(40, 10);
 	setPosition(p);
+	// Set up crystal health UI element
+	df::ViewObject* crystal_health = new df::ViewObject();
+	crystal_health->setColor(df::CYAN);
+	crystal_health->setLocation(df::TOP_LEFT);
+	crystal_health->setViewString("crystal");
+	crystal_health->setValue(CRYSTAL_HEALTH);
 }
 
 Crystal::~Crystal()

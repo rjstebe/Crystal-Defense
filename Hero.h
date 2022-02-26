@@ -1,8 +1,11 @@
+#pragma once
+
 #include "Object.h"
 #include "EventKeyboard.h"
 #include "EventMouse.h"
-#include "EventDamage.h"
 #include "EventCollision.h"
+
+#include "EventDamage.h"
 #include "Reticle.h"
 
 const int PLAYER_HEALTH = 10;

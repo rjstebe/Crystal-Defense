@@ -1,6 +1,6 @@
-#include "Object.h"
+#pragma once
 
-// Engine includes.
+#include "Object.h"
 
 // Engine includes.
 #include "EventCollision.h"

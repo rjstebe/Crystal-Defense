@@ -21,6 +21,13 @@ Hero::Hero() {
     df::Vector p(20, 10);
     setPosition(p);
     setSolidness(df::SOFT);
+
+    // Set up player health UI element
+    df::ViewObject* player_health = new df::ViewObject();
+    player_health->setColor(df::RED);
+    player_health->setLocation(df::TOP_CENTER);
+    player_health->setViewString("health");
+    player_health->setValue(PLAYER_HEALTH);
 }
 
 Hero::~Hero() {

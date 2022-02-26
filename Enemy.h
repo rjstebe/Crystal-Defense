@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Object.h"
 #include "EventCollision.h"
 #include "EventStep.h"
@@ -10,7 +12,6 @@ private:
     float attack_period = 30;
     float attack_cooldown = attack_period;
 public:
-
     Enemy();
     ~Enemy();
     int eventHandler(const df::Event* p_e) override;
