@@ -32,10 +32,12 @@ void Bullet::out() {
 }
 
 void Bullet::hit(const df::EventCollision* p_collision_event) {
-	if ((p_collision_event->getObject1()->getType() == "Enemy") ||
-		(p_collision_event->getObject2()->getType() == "Enemy")) {
+	if (((p_collision_event->getObject1()->getType() == "Enemy") ||
+		(p_collision_event->getObject2()->getType() == "Enemy")) &&
+		!hit_enemy) {
 		WM.markForDelete(p_collision_event->getObject1());
 		WM.markForDelete(p_collision_event->getObject2());
+		hit_enemy = true;
 	}
 	if ((p_collision_event->getObject1()->getType() == "Wall") ||
 		(p_collision_event->getObject2()->getType() == "Wall")) {
