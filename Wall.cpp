@@ -7,6 +7,7 @@ Wall::Wall(df::Vector end1, df::Vector end2)
 	this->end1 = end1;
 	this->end2 = end2;
 	df::Vector temp;
+	setSprite("wall");
 	if (this->end1.getY() - this->end2.getY() == 0) {
 		length = abs(this->end1.getX() - this->end2.getX());
 		dir = 1; // horizontal wall
@@ -15,7 +16,7 @@ Wall::Wall(df::Vector end1, df::Vector end2)
 			this->end2.setXY(this->end1.getX(), this->end1.getY());
 			this->end1.setXY(this->end2.getX(), this->end2.getY());
 		}
-		setBox(df::Box(this->end1, this->length, 1));
+		setBox(df::Box(pixelsToSpaces(this->end1), this->length, 1));
 	}
 	else{
 		length = abs(this->end1.getY() - this->end2.getY());
@@ -26,10 +27,9 @@ Wall::Wall(df::Vector end1, df::Vector end2)
 			this->end1.setXY(this->end2.getX(), this->end2.getY());
 			
 		}
-		setBox(df::Box(this->end1,1,this->length));
+		setBox(df::Box(pixelsToSpaces(this->end1),1,this->length));
 	}
 	setType("Wall");
-	setSprite("wall");
 	setPosition(end1);
 
 }

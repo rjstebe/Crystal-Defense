@@ -22,7 +22,7 @@
 
 int main(int argc, char* argv[]) {
     GM.startUp();
-    LM.setLogLevel(-10);
+    //LM.setLogLevel(-10);
     LM.setFlush();
     RM.loadSprite("sprites/hero-spr.txt", "hero");
     RM.loadSprite("sprites/crystal-spr.txt", "crystal");
@@ -39,9 +39,9 @@ int main(int argc, char* argv[]) {
     new HealthPowerUp;
     new FireratePowerUp;
     new Bullet(df::Vector(0, 0));
-    //new Wall(df::Vector(5, 5), df::Vector(10, 5));
-    //new Wall(df::Vector(25, 5), df::Vector(15, 5));
-    //new Wall(df::Vector(5, 5), df::Vector(5, 15));
+    new Wall(df::Vector(5, 5), df::Vector(10, 5));
+    new Wall(df::Vector(25, 5), df::Vector(15, 5));
+    new Wall(df::Vector(5, 5), df::Vector(5, 15));
     EM.startUp();
     Room* a = EM.addRoom('a', df::Box(df::Vector(25, -5), 30, 30));
     Room* b = EM.addRoom('b', df::Box(df::Vector(0, 0), 20, 20));
