@@ -247,8 +247,9 @@ int df::WorldManager::moveObject(Object* p_o, Vector where) {
 					do_move = false; // Can't move.
 				}	
 			} // End iterate.
-			if (!do_move) {
-				LM.writeLog(-5, "df::WorldManager::moveObject(): Object id: %d blocked by solid object", p_o->getId());
+			if (!do_move || p_o->dont_move_this_frame) {
+				LM.writeLog(-5, "df::WorldManager::moveObject(): Object id: %d blocked by solid object or by setting dontMoveThisFrame", p_o->getId());
+				p_o->dont_move_this_frame = false;
 				return -1; // Move not allowed.
 			}
 		} // No collision.

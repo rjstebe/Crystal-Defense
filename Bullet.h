@@ -6,6 +6,7 @@ class Bullet : public df::Object {
 private:
     void out();
     void hit(const df::EventCollision* p_collision_event);
+    bool hit_enemy = false;
 
 public:
     Bullet(df::Vector hero_pos);

@@ -15,6 +15,12 @@ Crystal::Crystal()
 	setSprite("crystal");
 	df::Vector p(40, 10);
 	setPosition(p);
+	// Set up crystal health UI element
+	df::ViewObject* crystal_health = new df::ViewObject();
+	crystal_health->setColor(df::CYAN);
+	crystal_health->setLocation(df::TOP_LEFT);
+	crystal_health->setViewString("crystal");
+	crystal_health->setValue(CRYSTAL_HEALTH);
 }
 
 Crystal::~Crystal()
@@ -25,7 +31,6 @@ Crystal::~Crystal()
 // Returns 1 if event was handled, else 0;
 int Crystal::eventHandler(const df::Event* p_e)
 {
-	LM.writeLog(-5, "Crystal::eventHandler(): event type: %s", p_e->getType().c_str());
 	if (p_e->getType() == DAMAGE_EVENT) {
 		const EventDamage* p_ed = dynamic_cast<const EventDamage*>(p_e);
 		damaged(p_ed);
