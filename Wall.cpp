@@ -31,7 +31,7 @@ Wall::Wall(df::Vector end1, df::Vector end2)
 	setType("Wall");
 	setSprite("wall");
 	setPosition(end1);
-
+	setAltitude(3);
 }
 
 Wall::~Wall()

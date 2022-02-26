@@ -15,6 +15,7 @@ Crystal::Crystal()
 	setSprite("crystal");
 	df::Vector p(40, 10);
 	setPosition(p);
+	setAltitude(1);
 	// Set up crystal health UI element
 	df::ViewObject* crystal_health = new df::ViewObject();
 	crystal_health->setColor(df::CYAN);
