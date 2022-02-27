@@ -38,8 +38,8 @@ void HealthPowerUp::hit(const df::EventCollision* p_collision_event) {
 	}
 	if (other->getType() == "Hero") {
 		LM.writeLog("HealthPowerUp::hit(): player picked up health powerup");
-		EventDamage ed(-PLAYER_HEALTH / 5);
-		other->eventHandler(&ed);
+		Hero* hero = dynamic_cast<Hero*>(other);
+		hero->healthUpgrade();
 		delete this;
 	}
 }
