@@ -91,10 +91,9 @@ void GameStart::start() {
     new Wall(df::Vector(5, 5), df::Vector(10, 5));
     new Wall(df::Vector(25, 5), df::Vector(15, 5));
     new Wall(df::Vector(5, 5), df::Vector(5, 15));
+    WM.setBoundary(df::Box(df::Vector(-100, -100), 200, 200));
     WM.setViewFollowing(p_hero);
     
-    WM.setBoundary(df::Box(df::Vector(-100, -100), 200, 200));
-    LM.writeLog("created some objects");
     EM.startUp();
     LM.writeLog("EM started");
     if (!initialized) {
