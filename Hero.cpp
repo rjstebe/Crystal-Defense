@@ -150,7 +150,7 @@ int Hero::handleMove(df::Vector move)
             }
         }
     }
-    LM.writeLog("Hero::handleMove(): x_blocked: %d, y_blocked: %d");
+    //LM.writeLog("Hero::handleMove(): x_blocked: %d, y_blocked: %d");
     setVelocity(input);
     if (x_blocked) {
         setVelocity(df::Vector(0, getVelocity().getY()));

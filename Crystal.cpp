@@ -8,6 +8,7 @@
 
 // Game includes.
 #include "EventDamage.h"
+#include "EventCrystalDeath.h"
 
 Crystal::Crystal()
 {
@@ -46,4 +47,9 @@ void Crystal::damaged(const EventDamage* p_ed) {
 	// Send view event to view.
 	df::EventView ev("crystal", -p_ed->getDamage(), true);
 	WM.onEvent(&ev);
+	if (health <= 0) {
+		LM.writeLog("Crustasdf");
+		EventCrystalDeath deth;
+		WM.onEvent(&deth);
+	}
 }
