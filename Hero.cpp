@@ -13,8 +13,10 @@
 #include "utility.h"
 
 // Game includes.
+#include "EnemyManager.h"
 #include "EventDamage.h"
 #include "Bullet.h"
+
 Hero::Hero() {
     setType("Hero");
     setSprite("hero");
@@ -32,6 +34,7 @@ Hero::Hero() {
 }
 
 Hero::~Hero() {
+
 }
 
 int Hero::eventHandler(const df::Event* p_e) {
@@ -54,12 +57,6 @@ int Hero::eventHandler(const df::Event* p_e) {
     if (p_e->getType() == DAMAGE_EVENT) {
         const EventDamage* p_ed = dynamic_cast<const EventDamage*>(p_e);
         damaged(p_ed);
-        return 1;
-    }
-    if (p_e->getType() == df::COLLISION_EVENT) {
-        const df::EventCollision* p_collision_event =
-            dynamic_cast <const df::EventCollision*> (p_e);
-        hit(p_collision_event);
         return 1;
     }
     return 0;
@@ -96,11 +93,25 @@ void Hero::kbd(const df::EventKeyboard* p_keyboard_event) {
 }
 
 void Hero::step() {
-    handleMove(input);
-    // Fire countdown.
-    fire_countdown--;
-    if (fire_countdown < 0)
-        fire_countdown = 0;
+    LM.writeLog("Hero::step(): position: (%f, %f)", getPosition().getX(), getPosition().getY());
+    if (alive) {
+        handleMove(input);
+        // Fire countdown.
+        fire_countdown--;
+        if (fire_countdown < 0)
+            fire_countdown = 0;
+    }
+    else {
+        respawn_timer--;
+        if (respawn_timer <= 0) {
+            LM.writeLog(0, "Hero::step(): Hero respawned with max health: %d", max_health);
+            alive = true;
+            fire_countdown = fire_slowdown;
+            health = max_health;
+            df::EventView ev("health", max_health, false);
+            WM.onEvent(&ev);
+        }
+    }
 }
 
 void Hero::fire(df::Vector target) {
@@ -119,13 +130,10 @@ void Hero::fire(df::Vector target) {
 
 void Hero::mouse(const df::EventMouse* p_mouse_event) {
     if ((p_mouse_event->getMouseAction() == df::PRESSED) &&
-        (p_mouse_event->getMouseButton() == df::Mouse::LEFT)) {
+        (p_mouse_event->getMouseButton() == df::Mouse::LEFT) &&
+        alive) {
         fire(WM.getView().getCorner() + pixelsToSpaces(p_reticle->getPosition()));
     }
-}
-
-void Hero::hit(const df::EventCollision* p_collision_event) {
-    //LM.writeLog("collision event");
 }
 
 int Hero::handleMove(df::Vector move)
@@ -150,7 +158,7 @@ int Hero::handleMove(df::Vector move)
             }
         }
     }
-    //LM.writeLog("Hero::handleMove(): x_blocked: %d, y_blocked: %d");
+    LM.writeLog(-10, "Hero::handleMove(): x_blocked: %d, y_blocked: %d", x_blocked, y_blocked);
     setVelocity(input);
     if (x_blocked) {
         setVelocity(df::Vector(0, getVelocity().getY()));
@@ -163,15 +171,38 @@ int Hero::handleMove(df::Vector move)
 
 // When damaged, update health and corresponding UI elements.
 void Hero::damaged(const EventDamage* p_ed) {
-    LM.writeLog(-5, "Crystal::eventHandler(): received damage event: damage: %d", p_ed->getDamage());
-    health_count -= p_ed->getDamage();
-    // Send view event to view.
-    df::EventView ev("health", -p_ed->getDamage(), true);
-    WM.onEvent(&ev);
+    if (alive) {
+        LM.writeLog(-5, "Hero::damaged(): received damage event: damage: %d", p_ed->getDamage());
+        health -= p_ed->getDamage();
+        // Send view event to view.
+        df::EventView ev("health", -p_ed->getDamage(), true);
+        WM.onEvent(&ev);
+        if (health <= 0) {
+            LM.writeLog(0, "Hero::step(): Hero died with health: %d, respawning in %d frames", health, respawn_time);
+            health = 0;
+            df::EventView ev("health", 0, false);
+            WM.onEvent(&ev);
+            alive = false;
+            setPosition(EM.getCrystal()->getPosition());
+            setVelocity(df::Vector());
+            respawn_timer = respawn_time;
+            WM.setViewPosition(getPosition());
+            LM.writeLog(0, "Hero::step(): set position to (%f, %f)", EM.getCrystal()->getPosition().getX(), EM.getCrystal()->getPosition().getY());
+            LM.writeLog(0, "Hero::step(): new velocity: (%f, %f)", getVelocity().getX(), getVelocity().getY());
+            LM.writeLog(0, "Hero::step(): new position: (%f, %f)", getPosition().getX(), getPosition().getY());
+        }
+    }
 }
 
 // Upgrades the players fire rate by reducing the slowdown.
 int Hero::firerateUpgrade() {
     fire_slowdown *= 0.75;
     return fire_slowdown;
+}
+
+int Hero::healthUpgrade() {
+    max_health += 2;
+    df::EventView ev("health", 2, true);
+    WM.onEvent(&ev);
+    return max_health;
 }

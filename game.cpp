@@ -25,7 +25,7 @@ void populateWorld(void);
 
 int main(int argc, char* argv[]) {
     GM.startUp();
-    //LM.setLogLevel(-10);
+    LM.setLogLevel(0);
     LM.setFlush();
     RM.loadSprite("sprites/hero-spr.txt", "hero");
     RM.loadSprite("sprites/crystal-spr.txt", "crystal");
