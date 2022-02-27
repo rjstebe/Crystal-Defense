@@ -259,7 +259,9 @@ int df::WorldManager::moveObject(Object* p_o, Vector where) {
 	LM.writeLog(-10, "df::WorldManager::moveObject(): Object id: %d moved successfully", p_o->getId());
 	// Do move.
 	Box orig_box = getWorldBox(p_o); // original bounding box
-	p_o->setPosition(where); // move object
+	// move object (use predict position in case object changed velocity as a part of the collision
+	// events)
+	p_o->setPosition(p_o->predictPosition());
 	Box new_box = getWorldBox(p_o); // new bounding box
 
 	// If view is following this object, adjust view.
