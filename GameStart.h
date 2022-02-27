@@ -7,7 +7,7 @@ private:
     void start();
     //df::Music* p_music;
     int started;
-
+    int initialized;
 public:
     GameStart();
     void GameDone();

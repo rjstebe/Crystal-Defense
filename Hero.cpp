@@ -93,7 +93,7 @@ void Hero::kbd(const df::EventKeyboard* p_keyboard_event) {
 }
 
 void Hero::step() {
-    LM.writeLog("Hero::step(): position: (%f, %f)", getPosition().getX(), getPosition().getY());
+    //LM.writeLog("Hero::step(): position: (%f, %f)", getPosition().getX(), getPosition().getY());
     if (alive) {
         handleMove(input);
         // Fire countdown.
