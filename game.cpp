@@ -19,6 +19,9 @@
 #include "Enemy.h"
 #include "HealthPowerUp.h"
 #include "FireratePowerUp.h"
+#include "GameStart.h"
+
+void populateWorld(void);
 
 int main(int argc, char* argv[]) {
     GM.startUp();
@@ -31,35 +34,21 @@ int main(int argc, char* argv[]) {
     RM.loadSprite("sprites/wall-spr.txt", "wall");
     RM.loadSprite("sprites/health-powerup-spr.txt", "healthpowerup");
     RM.loadSprite("sprites/firerate-powerup-spr.txt", "fireratepowerup");
+    RM.loadSprite("sprites/start-spr.txt", "gamestart");
+    populateWorld();
     
-    Hero* p_hero = new Hero();
-    new Crystal;
-    new Enemy(df::Vector(1, 10));
-    new Enemy(df::Vector(40, -15));
-    new HealthPowerUp;
-    new FireratePowerUp;
-    new Bullet(df::Vector(0, 0));
-    new Wall(df::Vector(5, 5), df::Vector(10, 5));
-    new Wall(df::Vector(25, 5), df::Vector(15, 5));
-    new Wall(df::Vector(5, 5), df::Vector(5, 15));
-    EM.startUp();
-    Room* a = EM.addRoom('a', df::Box(df::Vector(25, -5), 30, 30), false);
-    Room* b = EM.addRoom('b', df::Box(df::Vector(0, 0), 20, 20), true);
-    Room* c = EM.addRoom('c', df::Box(df::Vector(30, -30), 20, 20), true);
-    Room* d = EM.addRoom('d', df::Box(df::Vector(60, 0), 20, 20), true);
-    Room* e = EM.addRoom('e', df::Box(df::Vector(30, 30), 20, 20), true);
-    a->addRoute('b', df::Vector(25, 10));
-    a->addRoute('c', df::Vector(40, -5));
-    a->addRoute('d', df::Vector(55, 10));
-    a->addRoute('e', df::Vector(40, 25));
-    b->addRoute('a', df::Vector(20, 10));
-    c->addRoute('a', df::Vector(40, -10));
-    d->addRoute('a', df::Vector(60, 10));
-    e->addRoute('a', df::Vector(40, 30));
-    WM.setViewFollowing(p_hero);
-    WM.setBoundary(df::Box(df::Vector(-100, -100), 200, 200));
+    //EM.startUp();
+
+
     GM.run();
 
     EM.shutDown();
     GM.shutDown();
+}
+
+void populateWorld(void) {
+
+    // Spawn GameStart object.
+    new GameStart();
+
 }
