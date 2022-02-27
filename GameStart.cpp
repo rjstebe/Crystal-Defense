@@ -12,6 +12,7 @@
 #include "Wall.h"
 #include "WorldManager.h"
 #include "LogManager.h"
+#include "EventCrystalDeath.h"
 
 GameStart::GameStart() {
 
@@ -48,9 +49,31 @@ int GameStart::eventHandler(const df::Event* p_e) {
         }
         return 1;
     }
-
+    if (p_e->getType() == CRYSTAL_DEATH_EVENT) {
+        GameDone();
+    }
     // If get here, have ignored this event.
     return 0;
+}
+
+void GameStart::GameDone()
+{
+    this->setLocation(df::CENTER_CENTER);
+    LM.writeLog("Crystal down");
+    df::ObjectList obj = WM.getAllObjects();
+    
+    df::ObjectListIterator li = df::ObjectListIterator(&obj);
+    for (li.first(); !li.isDone() ; li.next()) {
+        if (li.currentObject()->getType() == "GameStart") {
+            LM.writeLog("only once");
+        }
+        else {
+            WM.markForDelete(li.currentObject());
+        }
+        started = 0;
+    }
+    WM.setViewFollowing(this);
+    //EM.shutDown();
 }
 
 void GameStart::start() {
@@ -65,6 +88,7 @@ void GameStart::start() {
     new Wall(df::Vector(25, 5), df::Vector(15, 5));
     new Wall(df::Vector(5, 5), df::Vector(5, 15));
     WM.setViewFollowing(p_hero);
+    
     WM.setBoundary(df::Box(df::Vector(-100, -100), 200, 200));
     
     EM.startUp();

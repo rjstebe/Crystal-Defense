@@ -10,6 +10,7 @@ private:
 
 public:
     GameStart();
+    void GameDone();
     int eventHandler(const df::Event* p_e) override;
     int draw() override;
     //void playMusic();
