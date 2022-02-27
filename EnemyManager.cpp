@@ -1,10 +1,17 @@
+#pragma once
+
 #include "EnemyManager.h"
 
+#include <random>
+
+#include "LogManager.h"
 #include "WorldManager.h"
 #include "ObjectListIterator.h"
 
 // Called only by getInstance().
-EnemyManager::EnemyManager() {}
+EnemyManager::EnemyManager() {
+	setSolidness(df::SPECTRAL);
+}
 
 // Get the one and only instance of the InputManager.
 EnemyManager& EnemyManager::getInstance() {
@@ -34,12 +41,15 @@ int EnemyManager::startUp() {
 	p_crystal = dynamic_cast<Crystal*>(crystals_iter.currentObject());
 	p_hero = dynamic_cast<Hero*>(heros_iter.currentObject());
 
-	return Manager::startUp();
+	// Start RNG
+	random_float = std::uniform_real_distribution<>(0, 1);
+
+	return 0;
 }
 
 // Shut down the enemy manager.
 void EnemyManager::shutDown() {
-	Manager::shutDown();
+	
 }
 
 // Get a pointer to the crystal object if it exists.
@@ -79,7 +89,7 @@ Room* EnemyManager::getRoomByChar(char room_name) {
 
 // Adds a new room with a char name, and the given transform, returns a pointer to the created room,
 // or NULL if it cannot be added.
-Room* EnemyManager::addRoom(char room_name, df::Box transform) {
+Room* EnemyManager::addRoom(char room_name, df::Box transform, bool add_as_spawner) {
 	if (getRoomByChar(room_name) != NULL) {
 		return NULL;
 	}
@@ -88,5 +98,37 @@ Room* EnemyManager::addRoom(char room_name, df::Box transform) {
 	if (a != 0) {
 		return NULL;
 	}
+	if (add_as_spawner) {
+		spawner_rooms.insert(p_room);
+	}
 	return p_room;
+}
+
+// Handle step events for spawning enemies.
+int EnemyManager::eventHandler(const df::Event* p_e) {
+	if (p_e->getType() == df::STEP_EVENT) {
+		step();
+		return 1;
+	}
+	return 0;
+}
+
+// Process step event to spawn waves of enemies.
+void EnemyManager::step() {
+	wave_timer--;
+	if (wave_timer <= 0) {
+		LM.writeLog(0, "EnemyManager::step(): New wave released! spawning enemies in %d rooms", spawner_rooms.getCount());
+		wave_timer = wave_speed;
+		df::ObjectListIterator li = df::ObjectListIterator(&spawner_rooms);
+		for (li.first(); !li.isDone(); li.next()) {
+			Room* spawner_room = dynamic_cast<Room*>(li.currentObject());
+			for (int i = 0; i < enemy_count / spawner_rooms.getCount(); i++) {
+				df::Box spawner_area = spawner_room->getTransform();
+				float x = random_float(rng) * spawner_area.getHorizontal() + spawner_area.getCorner().getX();
+				float y = random_float(rng) * spawner_area.getVertical() + spawner_area.getCorner().getY();
+				new Enemy(df::Vector(x, y));
+			}
+		}
+		enemy_count = (float)enemy_count * 1.2;
+	}
 }

@@ -3,16 +3,15 @@
 // Engine includes.
 #include "EventCollision.h"
 
-PowerUp::PowerUp()
-{
+PowerUp::PowerUp() {
+	setAltitude(1);
 }
 
-PowerUp::~PowerUp()
-{
+PowerUp::~PowerUp() {
+
 }
 
-int PowerUp::eventHandler(const df::Event* p_e)
-{
+int PowerUp::eventHandler(const df::Event* p_e) {
 	if (p_e->getType() == df::COLLISION_EVENT) {
 		const df::EventCollision* p_ec = dynamic_cast<const df::EventCollision*>(p_e);
 		hit(p_ec);
@@ -20,6 +19,6 @@ int PowerUp::eventHandler(const df::Event* p_e)
 	return 0;
 }
 
-void PowerUp::hit(const df::EventCollision* p_collision_event)
-{
+void PowerUp::hit(const df::EventCollision* p_collision_event) {
+	
 }

@@ -43,11 +43,11 @@ int main(int argc, char* argv[]) {
     new Wall(df::Vector(25, 5), df::Vector(15, 5));
     new Wall(df::Vector(5, 5), df::Vector(5, 15));
     EM.startUp();
-    Room* a = EM.addRoom('a', df::Box(df::Vector(25, -5), 30, 30));
-    Room* b = EM.addRoom('b', df::Box(df::Vector(0, 0), 20, 20));
-    Room* c = EM.addRoom('c', df::Box(df::Vector(30, -30), 20, 20));
-    Room* d = EM.addRoom('d', df::Box(df::Vector(60, 0), 20, 20));
-    Room* e = EM.addRoom('e', df::Box(df::Vector(30, 30), 20, 20));
+    Room* a = EM.addRoom('a', df::Box(df::Vector(25, -5), 30, 30), false);
+    Room* b = EM.addRoom('b', df::Box(df::Vector(0, 0), 20, 20), true);
+    Room* c = EM.addRoom('c', df::Box(df::Vector(30, -30), 20, 20), true);
+    Room* d = EM.addRoom('d', df::Box(df::Vector(60, 0), 20, 20), true);
+    Room* e = EM.addRoom('e', df::Box(df::Vector(30, 30), 20, 20), true);
     a->addRoute('b', df::Vector(25, 10));
     a->addRoute('c', df::Vector(40, -5));
     a->addRoute('d', df::Vector(55, 10));

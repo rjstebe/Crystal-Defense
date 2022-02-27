@@ -25,6 +25,9 @@ public:
 	// Returns the character associated with the room.
 	char getCharName();
 
+	// Returns the box transform of the room.
+	df::Box getTransform();
+
 	// Add a route from this room to another by associating the other room's char name with an exit location
 	// in this room. This must be done for indirect connections as well. Returns -1 if unsuccessful, 0
 	// otherwise.
