@@ -25,10 +25,7 @@ private:
 	void hit(const df::EventCollision* p_collision_event);
 	Reticle* p_reticle = new Reticle;
 	int handleMove(df::Vector move);
-	int n;
-	int s;
-	int e;
-	int w;
+	df::Vector input;
 public:
 	Hero();
 	~Hero();
