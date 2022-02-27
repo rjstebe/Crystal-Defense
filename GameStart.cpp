@@ -87,9 +87,8 @@ void GameStart::start() {
     new Wall(df::Vector(5, 5), df::Vector(10, 5));
     new Wall(df::Vector(25, 5), df::Vector(15, 5));
     new Wall(df::Vector(5, 5), df::Vector(5, 15));
-    WM.setViewFollowing(p_hero);
-    
     WM.setBoundary(df::Box(df::Vector(-100, -100), 200, 200));
+    WM.setViewFollowing(p_hero);
     
     EM.startUp();
     Room* a = EM.addRoom('a', df::Box(df::Vector(25, -5), 30, 30), false);
