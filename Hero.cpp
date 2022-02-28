@@ -55,8 +55,8 @@ int Hero::eventHandler(const df::Event* p_e) {
         return 1;
     }
     if (p_e->getType() == DAMAGE_EVENT) {
-        const EventDamage* p_ed = dynamic_cast<const EventDamage*>(p_e);
-        damaged(p_ed);
+        /*const EventDamage* p_ed = dynamic_cast<const EventDamage*>(p_e);
+        damaged(p_ed);*/
         return 1;
     }
     return 0;
