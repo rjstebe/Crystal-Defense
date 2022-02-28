@@ -104,9 +104,15 @@ void GameStart::start() {
     new HealthPowerUp;
     new FireratePowerUp;
     new Bullet(df::Vector(0, 0));
+    new Wall(df::Vector(10, 5), df::Vector(5, 5));
+    new Wall(df::Vector(10, 0), df::Vector(5, 0));
+    new Wall(df::Vector(10, -5), df::Vector(5, -5));
+    new Wall(df::Vector(5, -5), df::Vector(10, -5));
     new Wall(df::Vector(5, 5), df::Vector(10, 5));
+    new Wall(df::Vector(5, 10), df::Vector(10, 10));
+    new Wall(df::Vector(10, 15), df::Vector(5, 15));
     new Wall(df::Vector(25, 5), df::Vector(15, 5));
-    new Wall(df::Vector(5, 5), df::Vector(5, 15));
+    //new Wall(df::Vector(5, 5), df::Vector(5, 15));
     WM.setBoundary(df::Box(df::Vector(-100, -100), 200, 200));
     WM.setViewFollowing(p_hero);
     
