@@ -1,6 +1,7 @@
 #include "Bullet.h"
 #include "WorldManager.h"
 #include "EventOut.h"
+#include "ResourceManager.h"
 
 
 Bullet::Bullet(df::Vector hero_pos) {
@@ -38,6 +39,8 @@ void Bullet::hit(const df::EventCollision* p_collision_event) {
 		WM.markForDelete(p_collision_event->getObject1());
 		WM.markForDelete(p_collision_event->getObject2());
 		hit_enemy = true;
+		df::Sound* p_sound = RM.getSound("enemydeath");
+		p_sound->play();
 	}
 	if ((p_collision_event->getObject1()->getType() == "Wall") ||
 		(p_collision_event->getObject2()->getType() == "Wall")) {

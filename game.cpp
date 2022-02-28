@@ -36,6 +36,14 @@ int main(int argc, char* argv[]) {
     RM.loadSprite("sprites/firerate-powerup-spr.txt", "fireratepowerup");
     RM.loadSprite("sprites/start-spr.txt", "gamestart");
     RM.loadSprite("sprites/gameover-spr.txt", "gameover");
+    RM.loadSound("sounds/fire.wav", "fire");
+    RM.loadSound("sounds/enemy-death.wav", "enemydeath");
+    RM.loadSound("sounds/health-power.wav", "healthup");
+    RM.loadSound("sounds/shoot-power.wav", "shootup");
+    RM.loadSound("sounds/game-start.wav", "start");
+    RM.loadSound("sounds/game-over.wav", "over");
+    RM.loadSound("sounds/player-spawn.wav", "playerspawn");
+    RM.loadSound("sounds/player-damage.wav", "playerdamage");
     populateWorld();
     
     //EM.startUp();
