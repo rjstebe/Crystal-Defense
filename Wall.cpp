@@ -16,7 +16,7 @@ Wall::Wall(df::Vector side1, df::Vector side2)
 		}
 		LM.writeLog("end1 %f", end1.getX());
 		LM.writeLog("length %i", this->length);
-		setBox(df::Box(pixelsToSpaces(this->end1 - df::Vector(10, 10)), this->length-0.5, 0.5));
+		setBox(df::Box(pixelsToSpaces(this->end1 + df::Vector(-0.5, 0.5)), this->length+1, 1));
 	}
 	else{
 		length = abs(this->end1.getY() - this->end2.getY());
@@ -25,7 +25,7 @@ Wall::Wall(df::Vector side1, df::Vector side2)
 			this->end2.setY(side1.getY());
 			this->end1.setY(side2.getY());
 		}
-		setBox(df::Box(pixelsToSpaces(this->end1 - df::Vector(0.5, 0)), 0.5, this->length - 0.5));
+		setBox(df::Box(pixelsToSpaces(this->end1 + df::Vector(-0.5, 0.5)), 1, this->length + 1));
 	}
 	setType("Wall");
 	setPosition(end1);
@@ -42,6 +42,7 @@ int Wall::draw(void)
 	if (dir) { // horizontal wall
 		for (int i = 0; i < length; i++) {
 			DM.drawCh(df::Vector(getPosition().getX() + i, getPosition().getY()), '#', df::WHITE);
+			DM.drawCh(getBox().getCorner(), '#', df::RED);
 		}
 	}
 	else { // vertical wall
