@@ -11,6 +11,7 @@
 // Called only by getInstance().
 EnemyManager::EnemyManager() {
 	setSolidness(df::SPECTRAL);
+	setType("EnemyManager");
 }
 
 // Get the one and only instance of the InputManager.
@@ -26,7 +27,6 @@ int EnemyManager::startUp() {
 	if (!WM.isStarted()) {
 		return -1;
 	}
-
 	// Get Crystal and Hero (if cannot find either, return -1).
 	df::ObjectList crystals = WM.objectsOfType("Crystal");
 	df::ObjectList heros = WM.objectsOfType("Hero");
@@ -40,7 +40,8 @@ int EnemyManager::startUp() {
 	}
 	p_crystal = dynamic_cast<Crystal*>(crystals_iter.currentObject());
 	p_hero = dynamic_cast<Hero*>(heros_iter.currentObject());
-
+	enemy_count = 8;
+	wave_timer = 0;
 	// Start RNG
 	random_float = std::uniform_real_distribution<>(0, 1);
 

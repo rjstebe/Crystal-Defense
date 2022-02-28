@@ -43,7 +43,20 @@ int GameStart::eventHandler(const df::Event* p_e) {
             }
             break;
         case df::Keyboard::Q:			// quit
-            GM.setGameOver();
+            if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
+                if (started) {
+                    GameDone();
+                    lifted = 0;
+                }
+                else {
+                    if (lifted) {
+                        GM.setGameOver();
+                    }
+                }
+            }
+            else if (p_keyboard_event->getKeyboardAction() == df::KEY_RELEASED) {
+                lifted = 1;
+            }
             break;
         default: // Key is not handled.
             break;
@@ -67,6 +80,12 @@ void GameStart::GameDone()
     for (li.first(); !li.isDone() ; li.next()) {
         if (li.currentObject()->getType() == "GameStart") {
             LM.writeLog("only once");
+        }
+        else if (li.currentObject()->getType() == "Room") {
+            LM.writeLog("room not deleted");
+        }
+        else if (li.currentObject()->getType() == "EnemyManager") {
+            LM.writeLog("manager not deleted");
         }
         else {
             WM.markForDelete(li.currentObject());
@@ -116,7 +135,7 @@ void GameStart::start() {
     }
 
 
-
+    started = 1;
     this->setPosition(df::Vector(-100, -100));
     LM.writeLog("start complete");
     // Pause start music.

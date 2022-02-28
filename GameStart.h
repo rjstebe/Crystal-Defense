@@ -8,6 +8,7 @@ private:
     //df::Music* p_music;
     int started;
     int initialized;
+    bool lifted = 0;
 public:
     GameStart();
     void GameDone();
