@@ -11,6 +11,7 @@
 // Called only by getInstance().
 EnemyManager::EnemyManager() {
 	setSolidness(df::SPECTRAL);
+	setType("EnemyManager");
 }
 
 // Get the one and only instance of the InputManager.
@@ -26,7 +27,6 @@ int EnemyManager::startUp() {
 	if (!WM.isStarted()) {
 		return -1;
 	}
-
 	// Get Crystal and Hero (if cannot find either, return -1).
 	df::ObjectList crystals = WM.objectsOfType("Crystal");
 	df::ObjectList heros = WM.objectsOfType("Hero");
@@ -40,16 +40,19 @@ int EnemyManager::startUp() {
 	}
 	p_crystal = dynamic_cast<Crystal*>(crystals_iter.currentObject());
 	p_hero = dynamic_cast<Hero*>(heros_iter.currentObject());
-
+	enemy_count = 8;
+	wave_timer = 0;
 	// Start RNG
 	random_float = std::uniform_real_distribution<>(0, 1);
+
+	is_started = 1;
 
 	return 0;
 }
 
 // Shut down the enemy manager.
 void EnemyManager::shutDown() {
-	
+	is_started = 0;
 }
 
 // Get a pointer to the crystal object if it exists.
@@ -115,6 +118,9 @@ int EnemyManager::eventHandler(const df::Event* p_e) {
 
 // Process step event to spawn waves of enemies.
 void EnemyManager::step() {
+	if (is_started) {
+
+
 	wave_timer--;
 	if (wave_timer <= 0) {
 		LM.writeLog(0, "EnemyManager::step(): New wave released! spawning enemies in %d rooms", spawner_rooms.getCount());
@@ -130,5 +136,6 @@ void EnemyManager::step() {
 			}
 		}
 		enemy_count = (float)enemy_count * WAVE_GROWTH;
+	}
 	}
 }

@@ -31,7 +31,7 @@ private:
 	df::ObjectList spawner_rooms; // List of Rooms that can spawn enemies
 	int enemy_count = STARTING_ENEMIES; // Number of enemies in next wave
 	int wave_timer = 0; // Number of frames until next wave
-
+	int is_started = 0; // Whether or not Enemy Manager has been started
 public:
 	// Get the one and only instance of the EnemyManager.
 	static EnemyManager& getInstance();

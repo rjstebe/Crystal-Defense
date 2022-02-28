@@ -14,17 +14,18 @@
 #include "LogManager.h"
 #include "EventCrystalDeath.h"
 
+
 GameStart::GameStart() {
 
     setType("GameStart");
     setSprite("gamestart");
     // Put in center of window.
     setLocation(df::CENTER_CENTER);
-    LM.writeLog("Started");
     // Play start music.
     //p_music = RM.getMusic("start music");
     //playMusic();
     started = 0;
+    initialized = 0;
 
 
 
@@ -42,7 +43,20 @@ int GameStart::eventHandler(const df::Event* p_e) {
             }
             break;
         case df::Keyboard::Q:			// quit
-            GM.setGameOver();
+            if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
+                if (started) {
+                    GameDone();
+                    lifted = 0;
+                }
+                else {
+                    if (lifted) {
+                        GM.setGameOver();
+                    }
+                }
+            }
+            else if (p_keyboard_event->getKeyboardAction() == df::KEY_RELEASED) {
+                lifted = 1;
+            }
             break;
         default: // Key is not handled.
             break;
@@ -58,22 +72,28 @@ int GameStart::eventHandler(const df::Event* p_e) {
 
 void GameStart::GameDone()
 {
-    this->setLocation(df::CENTER_CENTER);
-    LM.writeLog("Crystal down");
     df::ObjectList obj = WM.getAllObjects();
     
     df::ObjectListIterator li = df::ObjectListIterator(&obj);
     for (li.first(); !li.isDone() ; li.next()) {
         if (li.currentObject()->getType() == "GameStart") {
-            LM.writeLog("only once");
+            
+        }
+        else if (li.currentObject()->getType() == "Room") {
+            
+        }
+        else if (li.currentObject()->getType() == "EnemyManager") {
+            
         }
         else {
             WM.markForDelete(li.currentObject());
         }
-        started = 0;
+
     }
+    started = 0;
+    this->setLocation(df::CENTER_CENTER);
     WM.setViewFollowing(this);
-    //EM.shutDown();
+    EM.shutDown();
 }
 
 void GameStart::start() {
@@ -84,44 +104,47 @@ void GameStart::start() {
     WM.setViewFollowing(p_hero);
     
     EM.startUp();
-    Room* a = EM.addRoom('a', df::Box(df::Vector(-10, -10), 24, 24), false);
-    Room* b = EM.addRoom('b', df::Box(df::Vector(-25, -5), 9, 19), false);
-    Room* c = EM.addRoom('c', df::Box(df::Vector(-5, -40), 14, 24), false);
-    Room* d = EM.addRoom('d', df::Box(df::Vector(20, -5), 14, 19), false);
-    Room* e = EM.addRoom('e', df::Box(df::Vector(-5, 20), 14, 14), false);
-    Room* f = EM.addRoom('f', df::Box(df::Vector(-45, 0), 14, 34), true);
-    Room* g = EM.addRoom('g', df::Box(df::Vector(-30, -40), 19, 14), true);
-    Room* h = EM.addRoom('h', df::Box(df::Vector(-10, -60), 29, 14), true);
-    Room* i = EM.addRoom('i', df::Box(df::Vector(15, -35), 19, 19), true);
-    Room* j = EM.addRoom('j', df::Box(df::Vector(40, -30), 19, 54), true);
-    Room* k = EM.addRoom('k', df::Box(df::Vector(-40, 40), 69, 14), true);
-    Room* l = EM.addRoom('l', df::Box(df::Vector(-25, 20), 14, 9), true);
-    a->addRoute('b', df::Vector(-10, 2));
-    a->addRoute('c', df::Vector(2, -10));
-    a->addRoute('d', df::Vector(14, 2));
-    a->addRoute('e', df::Vector(2, 14));
-    a->addRoute('f', df::Vector(-25, 7));
-    a->addRoute('g', df::Vector(-5, -33));
-    a->addRoute('h', df::Vector(2, -40));
-    a->addRoute('i', df::Vector(9, -23));
-    a->addRoute('j', df::Vector(34, 7));
-    a->addRoute('k', df::Vector(7, 34));
-    a->addRoute('l', df::Vector(-5, 27));
-    b->addRoute('a', df::Vector(-16, 2));
-    c->addRoute('a', df::Vector(2, -16));
-    d->addRoute('a', df::Vector(20, 2));
-    e->addRoute('a', df::Vector(2, 20));
-    f->addRoute('a', df::Vector(-31, 7));
-    g->addRoute('a', df::Vector(-11, -33));
-    h->addRoute('a', df::Vector(2, -46));
-    i->addRoute('a', df::Vector(15, -23));
-    j->addRoute('a', df::Vector(40, 7));
-    k->addRoute('a', df::Vector(7, 40));
-    l->addRoute('a', df::Vector(-11, 27));
+    if (!initialized) {
+        initialized = 1;
+        Room* a = EM.addRoom('a', df::Box(df::Vector(-10, -10), 24, 24), false);
+        Room* b = EM.addRoom('b', df::Box(df::Vector(-25, -5), 9, 19), false);
+        Room* c = EM.addRoom('c', df::Box(df::Vector(-5, -40), 14, 24), false);
+        Room* d = EM.addRoom('d', df::Box(df::Vector(20, -5), 14, 19), false);
+        Room* e = EM.addRoom('e', df::Box(df::Vector(-5, 20), 14, 14), false);
+        Room* f = EM.addRoom('f', df::Box(df::Vector(-45, 0), 14, 34), true);
+        Room* g = EM.addRoom('g', df::Box(df::Vector(-30, -40), 19, 14), true);
+        Room* h = EM.addRoom('h', df::Box(df::Vector(-10, -60), 29, 14), true);
+        Room* i = EM.addRoom('i', df::Box(df::Vector(15, -35), 19, 19), true);
+        Room* j = EM.addRoom('j', df::Box(df::Vector(40, -30), 19, 54), true);
+        Room* k = EM.addRoom('k', df::Box(df::Vector(-40, 40), 69, 14), true);
+        Room* l = EM.addRoom('l', df::Box(df::Vector(-25, 20), 14, 9), true);
+        a->addRoute('b', df::Vector(-10, 2));
+        a->addRoute('c', df::Vector(2, -10));
+        a->addRoute('d', df::Vector(14, 2));
+        a->addRoute('e', df::Vector(2, 14));
+        a->addRoute('f', df::Vector(-25, 7));
+        a->addRoute('g', df::Vector(-5, -33));
+        a->addRoute('h', df::Vector(2, -40));
+        a->addRoute('i', df::Vector(9, -23));
+        a->addRoute('j', df::Vector(34, 7));
+        a->addRoute('k', df::Vector(7, 34));
+        a->addRoute('l', df::Vector(-5, 27));
+        b->addRoute('a', df::Vector(-16, 2));
+        c->addRoute('a', df::Vector(2, -16));
+        d->addRoute('a', df::Vector(20, 2));
+        e->addRoute('a', df::Vector(2, 20));
+        f->addRoute('a', df::Vector(-31, 7));
+        g->addRoute('a', df::Vector(-11, -33));
+        h->addRoute('a', df::Vector(2, -46));
+        i->addRoute('a', df::Vector(15, -23));
+        j->addRoute('a', df::Vector(40, 7));
+        k->addRoute('a', df::Vector(7, 40));
+        l->addRoute('a', df::Vector(-11, 27));
+    }
 
-    LM.writeLog("start called");
-    this->setPosition(df::Vector(-100, -100));
 
+    started = 1;
+    this->setPosition(df::Vector(-300, -300));
     // Pause start music.
     //p_music->pause();
 }

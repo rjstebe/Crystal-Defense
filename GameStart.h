@@ -8,7 +8,8 @@ private:
     void setWalls();
     //df::Music* p_music;
     int started;
-
+    int initialized;
+    bool lifted = 1;
 public:
     GameStart();
     void GameDone();
