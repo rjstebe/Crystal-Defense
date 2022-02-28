@@ -10,12 +10,11 @@
 #include "EventDamage.h"
 #include "EventCrystalDeath.h"
 
-Crystal::Crystal()
+Crystal::Crystal(df::Vector position)
 {
 	setType("Crystal");
 	setSprite("crystal");
-	df::Vector p(40, 10);
-	setPosition(p);
+	setPosition(position);
 	setAltitude(1);
 	// Set up crystal health UI element
 	df::ViewObject* crystal_health = new df::ViewObject();

@@ -17,12 +17,11 @@
 #include "EventDamage.h"
 #include "Bullet.h"
 
-Hero::Hero() {
+Hero::Hero(df::Vector position) {
     setType("Hero");
     setSprite("hero");
     // Set location to something
-    df::Vector p(20, 10);
-    setPosition(p);
+    setPosition(position);
     setSolidness(df::SOFT);
     setAltitude(3);
     // Set up player health UI element

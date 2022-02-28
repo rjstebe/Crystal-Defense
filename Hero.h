@@ -29,7 +29,7 @@ private:
 	int respawn_timer;
 	df::Vector input;
 public:
-	Hero();
+	Hero(df::Vector position);
 	~Hero();
 	int eventHandler(const df::Event* p_e) override;
 	int firerateUpgrade();
