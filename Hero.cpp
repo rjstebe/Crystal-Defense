@@ -103,6 +103,8 @@ void Hero::step() {
     else {
         respawn_timer--;
         if (respawn_timer <= 0) {
+            df::Sound* p_sound = RM.getSound("start");
+            p_sound->play();
             LM.writeLog(0, "Hero::step(): Hero respawned with max health: %d", max_health);
             alive = true;
             fire_countdown = fire_slowdown;
@@ -123,8 +125,8 @@ void Hero::fire(df::Vector target) {
     Bullet* p = new Bullet(getPosition());
     p->setVelocity(v);
     // Play "fire" sound.
-    //df::Sound* p_sound = RM.getSound("fire");
-    //p_sound->play();
+    df::Sound* p_sound = RM.getSound("fire");
+    p_sound->play();
 }
 
 void Hero::mouse(const df::EventMouse* p_mouse_event) {
@@ -177,6 +179,8 @@ void Hero::damaged(const EventDamage* p_ed) {
         df::EventView ev("health", -p_ed->getDamage(), true);
         WM.onEvent(&ev);
         if (health <= 0) {
+            df::Sound* p_sound = RM.getSound("over");
+            p_sound->play();
             LM.writeLog(0, "Hero::step(): Hero died with health: %d, respawning in %d frames", health, respawn_time);
             health = 0;
             df::EventView ev("health", 0, false);
@@ -190,12 +194,18 @@ void Hero::damaged(const EventDamage* p_ed) {
             LM.writeLog(0, "Hero::step(): new velocity: (%f, %f)", getVelocity().getX(), getVelocity().getY());
             LM.writeLog(0, "Hero::step(): new position: (%f, %f)", getPosition().getX(), getPosition().getY());
         }
+        else {
+            df::Sound* p_sound = RM.getSound("playerdamage");
+            p_sound->play();
+        }
     }
 }
 
 // Upgrades the players fire rate by reducing the slowdown.
 int Hero::firerateUpgrade() {
     fire_slowdown *= 0.75;
+    df::Sound* p_sound = RM.getSound("shootup");
+    p_sound->play();
     return fire_slowdown;
 }
 
@@ -203,5 +213,7 @@ int Hero::healthUpgrade() {
     max_health += 2;
     df::EventView ev("health", 2, true);
     WM.onEvent(&ev);
+    df::Sound* p_sound = RM.getSound("healthup");
+    p_sound->play();
     return max_health;
 }

@@ -42,7 +42,6 @@ int Wall::draw(void)
 	if (dir) { // horizontal wall
 		for (int i = 0; i < length; i++) {
 			DM.drawCh(df::Vector(getPosition().getX() + i, getPosition().getY()), '#', df::WHITE);
-			DM.drawCh(getBox().getCorner(), '#', df::RED);
 		}
 	}
 	else { // vertical wall

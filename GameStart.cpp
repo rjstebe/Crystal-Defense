@@ -97,6 +97,8 @@ void GameStart::GameDone()
 }
 
 void GameStart::start() {
+    new FireratePowerUp(df::Vector(5, 5));
+    new HealthPowerUp(df::Vector(8, 8));
     Hero* p_hero = new Hero(df::Vector(2, 2));
     new Crystal(df::Vector(2, 2));
     setWalls();
@@ -147,6 +149,8 @@ void GameStart::start() {
     this->setPosition(df::Vector(-300, -300));
     // Pause start music.
     //p_music->pause();
+    df::Sound* p_sound = RM.getSound("start");
+    p_sound->play();
 }
 
 void GameStart::setWalls() {
