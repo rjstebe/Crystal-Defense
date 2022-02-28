@@ -35,6 +35,7 @@ int main(int argc, char* argv[]) {
     RM.loadSprite("sprites/health-powerup-spr.txt", "healthpowerup");
     RM.loadSprite("sprites/firerate-powerup-spr.txt", "fireratepowerup");
     RM.loadSprite("sprites/start-spr.txt", "gamestart");
+    RM.loadSprite("sprites/gameover-spr.txt", "gameover");
     populateWorld();
     
     //EM.startUp();
