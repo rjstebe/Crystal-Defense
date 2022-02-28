@@ -7,12 +7,10 @@
 #include "EventDamage.h"
 #include "Hero.h"
 
-HealthPowerUp::HealthPowerUp() {
+HealthPowerUp::HealthPowerUp(df::Vector position) : PowerUp(position) {
 	setType("Health Power Up");
 	setSprite("healthpowerup");
 	setSolidness(df::SOFT);
-	df::Vector p(20, 20);
-	setPosition(p);
 }
 
 HealthPowerUp::~HealthPowerUp() {

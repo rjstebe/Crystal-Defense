@@ -3,8 +3,9 @@
 // Engine includes.
 #include "EventCollision.h"
 
-PowerUp::PowerUp() {
+PowerUp::PowerUp(df::Vector position) {
 	setAltitude(1);
+	setPosition(position);
 }
 
 PowerUp::~PowerUp() {

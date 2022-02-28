@@ -5,6 +5,7 @@ class GameStart : public df::ViewObject {
 
 private:
     void start();
+    void setWalls();
     //df::Music* p_music;
     int started;
     int initialized;

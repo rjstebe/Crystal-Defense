@@ -7,12 +7,10 @@
 #include "EventDamage.h"
 #include "Hero.h"
 
-FireratePowerUp::FireratePowerUp() {
+FireratePowerUp::FireratePowerUp(df::Vector position) : PowerUp(position) {
 	setType("Firerate Power Up");
 	setSprite("fireratepowerup");
 	setSolidness(df::SOFT);
-	df::Vector p(30, 20);
-	setPosition(p);
 }
 
 FireratePowerUp::~FireratePowerUp() {

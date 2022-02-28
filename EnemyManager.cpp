@@ -124,7 +124,7 @@ void EnemyManager::step() {
 	wave_timer--;
 	if (wave_timer <= 0) {
 		LM.writeLog(0, "EnemyManager::step(): New wave released! spawning enemies in %d rooms", spawner_rooms.getCount());
-		wave_timer = wave_speed;
+		wave_timer = WAVE_SPEED;
 		df::ObjectListIterator li = df::ObjectListIterator(&spawner_rooms);
 		for (li.first(); !li.isDone(); li.next()) {
 			Room* spawner_room = dynamic_cast<Room*>(li.currentObject());
@@ -135,7 +135,7 @@ void EnemyManager::step() {
 				new Enemy(df::Vector(x, y));
 			}
 		}
-		enemy_count = (float)enemy_count * 1.2;
+		enemy_count = (float)enemy_count * WAVE_GROWTH;
 	}
 	}
 }

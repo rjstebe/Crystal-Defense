@@ -16,7 +16,7 @@ private:
     void damaged(const EventDamage* p_ed);
     int health = CRYSTAL_HEALTH;
 public:
-    Crystal();
+    Crystal(df::Vector position);
     ~Crystal();
     int eventHandler(const df::Event* p_e) override;
 };

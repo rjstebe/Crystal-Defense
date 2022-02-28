@@ -13,6 +13,10 @@
 
 #define EM EnemyManager::getInstance()
 
+const float WAVE_GROWTH = 1.2; // Multiplier for how many enemies in subsequent waves
+const int STARTING_ENEMIES = 0; // Number of enemies in starting wave
+const int WAVE_SPEED = 300; // Number of frames between waves
+
 class EnemyManager : public df::Object {
 private:
 	EnemyManager(); // Private (a singleton).
@@ -25,8 +29,7 @@ private:
 	Hero* p_hero = NULL; // Pointer to hero
 	df::ObjectList rooms; // List of Rooms
 	df::ObjectList spawner_rooms; // List of Rooms that can spawn enemies
-	int enemy_count = 8; // Number of enemies in next wave
-	int wave_speed = 300; // Number of frames between waves
+	int enemy_count = STARTING_ENEMIES; // Number of enemies in next wave
 	int wave_timer = 0; // Number of frames until next wave
 	int is_started = 0; // Whether or not Enemy Manager has been started
 public:
