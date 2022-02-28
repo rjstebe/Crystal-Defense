@@ -25,6 +25,7 @@ GameStart::GameStart() {
     //p_music = RM.getMusic("start music");
     //playMusic();
     started = 0;
+    initialized = 0;
 
 
 
@@ -42,7 +43,20 @@ int GameStart::eventHandler(const df::Event* p_e) {
             }
             break;
         case df::Keyboard::Q:			// quit
-            GM.setGameOver();
+            if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
+                if (started) {
+                    GameDone();
+                    lifted = 0;
+                }
+                else {
+                    if (lifted) {
+                        GM.setGameOver();
+                    }
+                }
+            }
+            else if (p_keyboard_event->getKeyboardAction() == df::KEY_RELEASED) {
+                lifted = 1;
+            }
             break;
         default: // Key is not handled.
             break;
@@ -67,16 +81,25 @@ void GameStart::GameDone()
         if (li.currentObject()->getType() == "GameStart") {
             LM.writeLog("only once");
         }
+        else if (li.currentObject()->getType() == "Room") {
+            LM.writeLog("room not deleted");
+        }
+        else if (li.currentObject()->getType() == "EnemyManager") {
+            LM.writeLog("manager not deleted");
+        }
         else {
             WM.markForDelete(li.currentObject());
         }
-        started = 0;
+
     }
+    started = 0;
     WM.setViewFollowing(this);
-    //EM.shutDown();
+    EM.shutDown();
+    LM.writeLog("game done");
 }
 
 void GameStart::start() {
+    LM.writeLog("Start called");
     Hero* p_hero = new Hero();
     new Crystal;
     new Enemy(df::Vector(1, 10));
@@ -91,23 +114,30 @@ void GameStart::start() {
     WM.setViewFollowing(p_hero);
     
     EM.startUp();
-    Room* a = EM.addRoom('a', df::Box(df::Vector(25, -5), 30, 30), false);
-    Room* b = EM.addRoom('b', df::Box(df::Vector(0, 0), 20, 20), true);
-    Room* c = EM.addRoom('c', df::Box(df::Vector(30, -30), 20, 20), true);
-    Room* d = EM.addRoom('d', df::Box(df::Vector(60, 0), 20, 20), true);
-    Room* e = EM.addRoom('e', df::Box(df::Vector(30, 30), 20, 20), true);
-    a->addRoute('b', df::Vector(25, 10));
-    a->addRoute('c', df::Vector(40, -5));
-    a->addRoute('d', df::Vector(55, 10));
-    a->addRoute('e', df::Vector(40, 25));
-    b->addRoute('a', df::Vector(20, 10));
-    c->addRoute('a', df::Vector(40, -10));
-    d->addRoute('a', df::Vector(60, 10));
-    e->addRoute('a', df::Vector(40, 30));
+    LM.writeLog("EM started");
+    if (!initialized) {
+        Room* a = EM.addRoom('a', df::Box(df::Vector(25, -5), 30, 30), false);
+        Room* b = EM.addRoom('b', df::Box(df::Vector(0, 0), 20, 20), true);
+        Room* c = EM.addRoom('c', df::Box(df::Vector(30, -30), 20, 20), true);
+        Room* d = EM.addRoom('d', df::Box(df::Vector(60, 0), 20, 20), true);
+        Room* e = EM.addRoom('e', df::Box(df::Vector(30, 30), 20, 20), true);
+        LM.writeLog("Rooms added");
+        a->addRoute('b', df::Vector(25, 10));
+        a->addRoute('c', df::Vector(40, -5));
+        a->addRoute('d', df::Vector(55, 10));
+        a->addRoute('e', df::Vector(40, 25));
+        b->addRoute('a', df::Vector(20, 10));
+        c->addRoute('a', df::Vector(40, -10));
+        d->addRoute('a', df::Vector(60, 10));
+        e->addRoute('a', df::Vector(40, 30));
+        LM.writeLog("routes added");
+        initialized = 1;
+    }
 
-    LM.writeLog("start called");
+
+    started = 1;
     this->setPosition(df::Vector(-100, -100));
-
+    LM.writeLog("start complete");
     // Pause start music.
     //p_music->pause();
 }

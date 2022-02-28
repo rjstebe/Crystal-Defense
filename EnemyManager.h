@@ -28,7 +28,7 @@ private:
 	int enemy_count = 8; // Number of enemies in next wave
 	int wave_speed = 300; // Number of frames between waves
 	int wave_timer = 0; // Number of frames until next wave
-
+	int is_started = 0; // Whether or not Enemy Manager has been started
 public:
 	// Get the one and only instance of the EnemyManager.
 	static EnemyManager& getInstance();
