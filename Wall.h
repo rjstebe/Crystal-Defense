@@ -7,7 +7,7 @@ private:
     int length;
     int dir; // 0 for horizontal, 1 for vertical
 public:
-    Wall(df::Vector end1, df::Vector end2);
+    Wall(df::Vector side1, df::Vector side2);
     ~Wall();
     int draw(void) override;
 };

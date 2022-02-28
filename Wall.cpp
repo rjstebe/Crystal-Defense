@@ -2,36 +2,35 @@
 #include "DisplayManager.h"
 #include "LogManager.h"
 
-Wall::Wall(df::Vector end1, df::Vector end2)
+Wall::Wall(df::Vector side1, df::Vector side2)
 {
-	this->end1 = end1;
-	this->end2 = end2;
-	df::Vector temp;
+	this->end1 = side1;
+	this->end2 = side2;
 	setSprite("wall");
 	if (this->end1.getY() - this->end2.getY() == 0) {
 		length = abs(this->end1.getX() - this->end2.getX());
 		dir = 1; // horizontal wall
-		if (end1.getY() > end2.getY()) {
-			temp.setXY(this->end2.getX(), this->end2.getY());
-			this->end2.setXY(this->end1.getX(), this->end1.getY());
-			this->end1.setXY(this->end2.getX(), this->end2.getY());
+		if (end1.getX() > end2.getX()) {
+			this->end2.setX(side1.getX());
+			this->end1.setX(side2.getX());
 		}
-		setBox(df::Box(pixelsToSpaces(this->end1), this->length, 1));
+		LM.writeLog("end1 %f", end1.getX());
+		LM.writeLog("length %i", this->length);
+		setBox(df::Box(pixelsToSpaces(this->end1 - df::Vector(10, 10)), this->length-0.5, 0.5));
 	}
 	else{
 		length = abs(this->end1.getY() - this->end2.getY());
 		dir = 0; // vertical wall
-		if (end1.getX() > end2.getX()) {
-			temp.setXY(this->end2.getX(), this->end2.getY());
-			this->end2.setXY(this->end1.getX(), this->end1.getY());
-			this->end1.setXY(this->end2.getX(), this->end2.getY());
-			
+		if (end1.getY() > end2.getY()) {
+			this->end2.setY(side1.getY());
+			this->end1.setY(side2.getY());
 		}
-		setBox(df::Box(pixelsToSpaces(this->end1),1,this->length));
+		setBox(df::Box(pixelsToSpaces(this->end1 - df::Vector(0.5, 0)), 0.5, this->length - 0.5));
 	}
 	setType("Wall");
 	setPosition(end1);
 	setAltitude(3);
+	LM.writeLog("pos %f %f ", getBox().getCorner().getX(), getBox().getCorner().getY());
 }
 
 Wall::~Wall()
