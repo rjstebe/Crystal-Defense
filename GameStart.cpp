@@ -14,13 +14,13 @@
 #include "LogManager.h"
 #include "EventCrystalDeath.h"
 
+
 GameStart::GameStart() {
 
     setType("GameStart");
     setSprite("gamestart");
     // Put in center of window.
     setLocation(df::CENTER_CENTER);
-    LM.writeLog("Started");
     // Play start music.
     //p_music = RM.getMusic("start music");
     //playMusic();
@@ -72,20 +72,18 @@ int GameStart::eventHandler(const df::Event* p_e) {
 
 void GameStart::GameDone()
 {
-    this->setLocation(df::CENTER_CENTER);
-    LM.writeLog("Crystal down");
     df::ObjectList obj = WM.getAllObjects();
     
     df::ObjectListIterator li = df::ObjectListIterator(&obj);
     for (li.first(); !li.isDone() ; li.next()) {
         if (li.currentObject()->getType() == "GameStart") {
-            LM.writeLog("only once");
+            
         }
         else if (li.currentObject()->getType() == "Room") {
-            LM.writeLog("room not deleted");
+            
         }
         else if (li.currentObject()->getType() == "EnemyManager") {
-            LM.writeLog("manager not deleted");
+            
         }
         else {
             WM.markForDelete(li.currentObject());
@@ -93,13 +91,12 @@ void GameStart::GameDone()
 
     }
     started = 0;
+    this->setLocation(df::CENTER_CENTER);
     WM.setViewFollowing(this);
     EM.shutDown();
-    LM.writeLog("game done");
 }
 
 void GameStart::start() {
-    LM.writeLog("Start called");
     Hero* p_hero = new Hero();
     new Crystal;
     new Enemy(df::Vector(1, 10));
@@ -114,14 +111,12 @@ void GameStart::start() {
     WM.setViewFollowing(p_hero);
     
     EM.startUp();
-    LM.writeLog("EM started");
     if (!initialized) {
         Room* a = EM.addRoom('a', df::Box(df::Vector(25, -5), 30, 30), false);
         Room* b = EM.addRoom('b', df::Box(df::Vector(0, 0), 20, 20), true);
         Room* c = EM.addRoom('c', df::Box(df::Vector(30, -30), 20, 20), true);
         Room* d = EM.addRoom('d', df::Box(df::Vector(60, 0), 20, 20), true);
         Room* e = EM.addRoom('e', df::Box(df::Vector(30, 30), 20, 20), true);
-        LM.writeLog("Rooms added");
         a->addRoute('b', df::Vector(25, 10));
         a->addRoute('c', df::Vector(40, -5));
         a->addRoute('d', df::Vector(55, 10));
@@ -130,14 +125,12 @@ void GameStart::start() {
         c->addRoute('a', df::Vector(40, -10));
         d->addRoute('a', df::Vector(60, 10));
         e->addRoute('a', df::Vector(40, 30));
-        LM.writeLog("routes added");
         initialized = 1;
     }
 
 
     started = 1;
-    this->setPosition(df::Vector(-100, -100));
-    LM.writeLog("start complete");
+    this->setPosition(df::Vector(-300, -300));
     // Pause start music.
     //p_music->pause();
 }
