@@ -4,6 +4,8 @@
 #include "DisplayManager.h"
 
 #include "EnemyManager.h"
+#include "HealthPowerUp.h"
+#include "FireratePowerUp.h"
 
 // Initialize the transform and char name of the room
 Room::Room(char new_name, df::Box new_transform) {
@@ -58,6 +60,31 @@ int Room::addRoute(char room_name, df::Vector exit_position) {
 
 	director_map[room_name] = exit_position;
 	LM.writeLog(-10, "Added connection from room %s to room %s via (%f, %f)", std::string(1, name).c_str(), std::string(1, room_name).c_str(), exit_position.getX(), exit_position.getY());
+}
+
+// Spawn the given power up at the power up location in this room. True spawns a health upgrade and
+// false spawns a firerate upgrade. Returns -1 if room already has power up, and 0 if successful.
+int Room::spawnPowerUp(bool spawn_health_upgrade) {
+	if (has_power_up) {
+		return -1;
+	}
+	
+	df::Vector spawn_position = transform.getCorner() +
+		df::Vector((transform.getHorizontal() + 1) / 2, (transform.getVertical() + 1) / 2);
+
+	if (spawn_health_upgrade) {
+		new HealthPowerUp(spawn_position);
+	}
+	else {
+		new FireratePowerUp(spawn_position);
+	}
+	has_power_up = true;
+	return 0;
+}
+
+// Set room as empty of power ups.
+void Room::setEmpty() {
+	has_power_up = false;
 }
 
 // Draw for testing room positions

@@ -2,8 +2,10 @@
 
 // Engine includes.
 #include "LogManager.h"
+#include "WorldManager.h"
 
 // Game includes.
+#include "EnemyManager.h"
 #include "EventDamage.h"
 #include "Hero.h"
 
@@ -14,7 +16,7 @@ FireratePowerUp::FireratePowerUp(df::Vector position) : PowerUp(position) {
 }
 
 FireratePowerUp::~FireratePowerUp() {
-
+	EM.getRoomByPosition(getPosition())->setEmpty();
 }
 
 int FireratePowerUp::eventHandler(const df::Event* p_e) {
@@ -38,6 +40,7 @@ void FireratePowerUp::hit(const df::EventCollision* p_collision_event) {
 		LM.writeLog("FireratePowerUp::hit(): player picked up firerate powerup");
 		Hero* hero = dynamic_cast<Hero*>(other);
 		hero->firerateUpgrade();
-		delete this;
+		WM.markForDelete(this);
+		EM.getRoomByPosition(getPosition())->setEmpty();
 	}
 }

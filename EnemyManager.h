@@ -29,6 +29,7 @@ private:
 	Hero* p_hero = NULL; // Pointer to hero
 	df::ObjectList rooms; // List of Rooms
 	df::ObjectList spawner_rooms; // List of Rooms that can spawn enemies
+	df::ObjectList powerup_rooms; // List of Rooms that can spawn power ups
 	int enemy_count = STARTING_ENEMIES; // Number of enemies in next wave
 	int wave_timer = 0; // Number of frames until next wave
 	int is_started = 0; // Whether or not Enemy Manager has been started
@@ -58,7 +59,7 @@ public:
 
 	// Adds a new room with a char name, and the given transform, returns a pointer to the created room,
 	// or NULL if it cannot be added.
-	Room* addRoom(char room_name, df::Box transform, bool add_as_spawner);
+	Room* addRoom(char room_name, df::Box transform, bool add_as_spawner, bool add_as_power_up_room);
 
 	// Handle step events for spawning enemies.
 	int eventHandler(const df::Event* p_e);
