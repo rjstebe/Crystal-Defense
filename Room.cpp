@@ -90,16 +90,16 @@ void Room::setEmpty() {
 // Draw for testing room positions
 int Room::draw() {
 	// Draw debug cursors at four corners of room
-	DM.drawCh(transform.getCorner(), '+', df::MAGENTA);
-	DM.drawCh(transform.getCorner() + df::Vector(transform.getHorizontal(), 0), '+', df::MAGENTA);
-	DM.drawCh(transform.getCorner() + df::Vector(0, transform.getVertical()), '+', df::MAGENTA);
-	DM.drawCh(transform.getCorner() + df::Vector(transform.getHorizontal(), transform.getVertical()), '+', df::MAGENTA);
+	//DM.drawCh(transform.getCorner(), '+', df::MAGENTA);
+	//DM.drawCh(transform.getCorner() + df::Vector(transform.getHorizontal(), 0), '+', df::MAGENTA);
+	//DM.drawCh(transform.getCorner() + df::Vector(0, transform.getVertical()), '+', df::MAGENTA);
+	//DM.drawCh(transform.getCorner() + df::Vector(transform.getHorizontal(), transform.getVertical()), '+', df::MAGENTA);
 	
 	// Draw character for each connection to another room
 	std::map<char, df::Vector>::iterator it;
 	for (it = director_map.begin(); it != director_map.end(); it++)
 	{
-		DM.drawCh(it->second, it->first, df::WHITE);
+		//DM.drawCh(it->second, it->first, df::WHITE);
 	}
 	return 0;
 }
