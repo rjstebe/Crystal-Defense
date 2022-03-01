@@ -16,6 +16,7 @@
 const float WAVE_GROWTH = 1.1; // Multiplier for how many enemies in subsequent waves
 const int STARTING_ENEMIES = 12; // Number of enemies in starting wave
 const int INITIAL_WAVE_SPEED = 600; // Number of frames between waves
+const int WAVE_SPEED_GROWTH = 0; // Number of frames to add to the wave speed each wave
 
 class EnemyManager : public df::Object {
 private:

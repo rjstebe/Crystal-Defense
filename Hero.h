@@ -9,6 +9,9 @@
 #include "Reticle.h"
 
 const int PLAYER_HEALTH = 10;
+const float INITIAL_FIRE_SLOWDOWN = 15;
+const float MOVE_SPEED = 0.5;
+const int RESPAWN_TIME = 75;
 
 class Hero : public df::Object {
 private:
@@ -19,13 +22,13 @@ private:
 	void damaged(const EventDamage* p_ed);
 	int handleMove(df::Vector move);
 	Reticle* p_reticle = new Reticle;
-	float move_speed = 0.5;
-	float fire_slowdown = 15;
+	float move_speed = MOVE_SPEED;
+	float fire_slowdown = INITIAL_FIRE_SLOWDOWN;
 	int fire_countdown = fire_slowdown;
 	int max_health = PLAYER_HEALTH;
 	int health = max_health;
 	bool alive = true;
-	int respawn_time = 150;
+	int respawn_time = RESPAWN_TIME;
 	int respawn_timer;
 	df::Vector input;
 public:

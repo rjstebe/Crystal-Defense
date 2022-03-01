@@ -145,7 +145,7 @@ void EnemyManager::step() {
 				}
 			}
 			enemy_count = (float)enemy_count * WAVE_GROWTH;
-			wave_speed += 30;
+			wave_speed += WAVE_SPEED_GROWTH;
 
 			LM.writeLog(0, "EnemyManager::step(): Attempting to spawn power ups");
 			// TODO maybe randomize list so that power up is placed in random power up room

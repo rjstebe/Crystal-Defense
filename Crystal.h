@@ -10,7 +10,7 @@
 #include "EventDamage.h"
 
 const int CRYSTAL_HEALTH = 100;
-const int REGEN_SLOWDOWN = 30;
+const int REGEN_SLOWDOWN = 150;
 const int REGEN_AMOUNT = 1;
 
 class Crystal : public df::Object {
