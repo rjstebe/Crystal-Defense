@@ -14,8 +14,8 @@ Wall::Wall(df::Vector side1, df::Vector side2)
 			this->end2.setX(side1.getX());
 			this->end1.setX(side2.getX());
 		}
-		LM.writeLog("end1 %f", end1.getX());
-		LM.writeLog("length %i", this->length);
+		LM.writeLog(-10, "Wall::Wall(): end1 %f", end1.getX());
+		LM.writeLog(-10, "Wall::Wall(): length %i", this->length);
 		setBox(df::Box(df::Vector(-0.45, -0.45), this->length-0.1, 0.9));
 	}
 	else{
@@ -30,7 +30,7 @@ Wall::Wall(df::Vector side1, df::Vector side2)
 	setType("Wall");
 	setPosition(end1);
 	setAltitude(3);
-	LM.writeLog("pos %f %f ", getBox().getCorner().getX(), getBox().getCorner().getY());
+	LM.writeLog(-10, "Wall::Wall(): pos %f %f ", getBox().getCorner().getX(), getBox().getCorner().getY());
 }
 
 Wall::~Wall()

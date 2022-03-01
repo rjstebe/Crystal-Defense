@@ -7,6 +7,7 @@
 #include "LogManager.h"
 #include "WorldManager.h"
 #include "ObjectListIterator.h"
+#include "EventView.h"
 
 // Called only by getInstance().
 EnemyManager::EnemyManager() {
@@ -44,6 +45,12 @@ int EnemyManager::startUp() {
 	wave_timer = 0;
 	// Start RNG
 	random_float = std::uniform_real_distribution<>(0, 1);
+	// Set up wave count UI element
+	df::ViewObject* wave_count = new df::ViewObject();
+	wave_count->setColor(df::YELLOW);
+	wave_count->setLocation(df::TOP_RIGHT);
+	wave_count->setViewString("waves");
+	wave_count->setValue(0);
 
 	is_started = 1;
 
@@ -126,7 +133,7 @@ void EnemyManager::step() {
 		wave_timer--;
 		if (wave_timer <= 0) {
 			LM.writeLog(0, "EnemyManager::step(): New wave released! spawning enemies in %d rooms", spawner_rooms.getCount());
-			wave_timer = WAVE_SPEED;
+			wave_timer = wave_speed;
 			df::ObjectListIterator li = df::ObjectListIterator(&spawner_rooms);
 			for (li.first(); !li.isDone(); li.next()) {
 				Room* spawner_room = dynamic_cast<Room*>(li.currentObject());
@@ -138,6 +145,7 @@ void EnemyManager::step() {
 				}
 			}
 			enemy_count = (float)enemy_count * WAVE_GROWTH;
+			wave_speed += 30;
 
 			LM.writeLog(0, "EnemyManager::step(): Attempting to spawn power ups");
 			// TODO maybe randomize list so that power up is placed in random power up room
@@ -150,6 +158,10 @@ void EnemyManager::step() {
 					break;
 				}
 			}
+
+			// Send view event to view.
+			df::EventView ev("waves", 1, true);
+			WM.onEvent(&ev);
 		}
 	}
 }

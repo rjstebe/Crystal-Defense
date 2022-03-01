@@ -99,8 +99,6 @@ void GameStart::GameDone()
 }
 
 void GameStart::start() {
-    new FireratePowerUp(df::Vector(5, 5));
-    new HealthPowerUp(df::Vector(8, 8));
     Hero* p_hero = new Hero(df::Vector(2, 2));
     new Crystal(df::Vector(2, 2));
     setWalls();
