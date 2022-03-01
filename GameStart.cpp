@@ -65,6 +65,8 @@ int GameStart::eventHandler(const df::Event* p_e) {
     }
     if (p_e->getType() == CRYSTAL_DEATH_EVENT) {
         GameDone();
+        df::Sound* p_sound = RM.getSound("over");
+        p_sound->play();
     }
     // If get here, have ignored this event.
     return 0;
