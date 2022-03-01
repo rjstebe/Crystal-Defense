@@ -20,7 +20,7 @@ private:
 	int handleMove(df::Vector move);
 	Reticle* p_reticle = new Reticle;
 	float move_speed = 0.5;
-	int fire_slowdown = 15;
+	float fire_slowdown = 15;
 	int fire_countdown = fire_slowdown;
 	int max_health = PLAYER_HEALTH;
 	int health = max_health;

@@ -2,8 +2,10 @@
 
 // Engine includes.
 #include "LogManager.h"
+#include "WorldManager.h"
 
 // Game includes.
+#include "EnemyManager.h"
 #include "EventDamage.h"
 #include "Hero.h"
 
@@ -14,7 +16,7 @@ HealthPowerUp::HealthPowerUp(df::Vector position) : PowerUp(position) {
 }
 
 HealthPowerUp::~HealthPowerUp() {
-
+	EM.getRoomByPosition(getPosition())->setEmpty();
 }
 
 int HealthPowerUp::eventHandler(const df::Event* p_e) {
@@ -38,6 +40,6 @@ void HealthPowerUp::hit(const df::EventCollision* p_collision_event) {
 		LM.writeLog("HealthPowerUp::hit(): player picked up health powerup");
 		Hero* hero = dynamic_cast<Hero*>(other);
 		hero->healthUpgrade();
-		delete this;
+		WM.markForDelete(this);
 	}
 }

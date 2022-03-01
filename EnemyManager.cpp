@@ -40,7 +40,7 @@ int EnemyManager::startUp() {
 	}
 	p_crystal = dynamic_cast<Crystal*>(crystals_iter.currentObject());
 	p_hero = dynamic_cast<Hero*>(heros_iter.currentObject());
-	enemy_count = 8;
+	enemy_count = STARTING_ENEMIES;
 	wave_timer = 0;
 	// Start RNG
 	random_float = std::uniform_real_distribution<>(0, 1);
@@ -92,7 +92,8 @@ Room* EnemyManager::getRoomByChar(char room_name) {
 
 // Adds a new room with a char name, and the given transform, returns a pointer to the created room,
 // or NULL if it cannot be added.
-Room* EnemyManager::addRoom(char room_name, df::Box transform, bool add_as_spawner) {
+Room* EnemyManager::addRoom(char room_name, df::Box transform, bool add_as_spawner,
+	bool add_as_power_up_room) {
 	if (getRoomByChar(room_name) != NULL) {
 		return NULL;
 	}
@@ -103,6 +104,9 @@ Room* EnemyManager::addRoom(char room_name, df::Box transform, bool add_as_spawn
 	}
 	if (add_as_spawner) {
 		spawner_rooms.insert(p_room);
+	}
+	if (add_as_power_up_room) {
+		powerup_rooms.insert(p_room);
 	}
 	return p_room;
 }
@@ -119,23 +123,33 @@ int EnemyManager::eventHandler(const df::Event* p_e) {
 // Process step event to spawn waves of enemies.
 void EnemyManager::step() {
 	if (is_started) {
+		wave_timer--;
+		if (wave_timer <= 0) {
+			LM.writeLog(0, "EnemyManager::step(): New wave released! spawning enemies in %d rooms", spawner_rooms.getCount());
+			wave_timer = WAVE_SPEED;
+			df::ObjectListIterator li = df::ObjectListIterator(&spawner_rooms);
+			for (li.first(); !li.isDone(); li.next()) {
+				Room* spawner_room = dynamic_cast<Room*>(li.currentObject());
+				for (int i = 0; i < enemy_count / spawner_rooms.getCount(); i++) {
+					df::Box spawner_area = spawner_room->getTransform();
+					float x = random_float(rng) * spawner_area.getHorizontal() + spawner_area.getCorner().getX();
+					float y = random_float(rng) * spawner_area.getVertical() + spawner_area.getCorner().getY();
+					new Enemy(df::Vector(x, y));
+				}
+			}
+			enemy_count = (float)enemy_count * WAVE_GROWTH;
 
-
-	wave_timer--;
-	if (wave_timer <= 0) {
-		LM.writeLog(0, "EnemyManager::step(): New wave released! spawning enemies in %d rooms", spawner_rooms.getCount());
-		wave_timer = WAVE_SPEED;
-		df::ObjectListIterator li = df::ObjectListIterator(&spawner_rooms);
-		for (li.first(); !li.isDone(); li.next()) {
-			Room* spawner_room = dynamic_cast<Room*>(li.currentObject());
-			for (int i = 0; i < enemy_count / spawner_rooms.getCount(); i++) {
-				df::Box spawner_area = spawner_room->getTransform();
-				float x = random_float(rng) * spawner_area.getHorizontal() + spawner_area.getCorner().getX();
-				float y = random_float(rng) * spawner_area.getVertical() + spawner_area.getCorner().getY();
-				new Enemy(df::Vector(x, y));
+			LM.writeLog(0, "EnemyManager::step(): Attempting to spawn power ups");
+			// TODO maybe randomize list so that power up is placed in random power up room
+			li = df::ObjectListIterator(&powerup_rooms);
+			for (li.first(); !li.isDone(); li.next()) {
+				Room* power_up_room = dynamic_cast<Room*>(li.currentObject());
+				// If spawning power up suceeded, stop searching. 
+				if (!power_up_room->spawnPowerUp(random_float(rng) < 0.5)) {
+					LM.writeLog(0, "EnemyManager::step(): Spawned power up");
+					break;
+				}
 			}
 		}
-		enemy_count = (float)enemy_count * WAVE_GROWTH;
-	}
 	}
 }
