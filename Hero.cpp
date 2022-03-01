@@ -203,7 +203,8 @@ void Hero::damaged(const EventDamage* p_ed) {
 
 // Upgrades the players fire rate by reducing the slowdown.
 int Hero::firerateUpgrade() {
-    fire_slowdown *= 0.75;
+    fire_slowdown = 3.5 + (fire_slowdown - 3.5) * 0.75;
+    LM.writeLog(0, "Hero::firerateUpgrade(): new fire speed: %f", fire_slowdown);
     df::Sound* p_sound = RM.getSound("shootup");
     p_sound->play();
     return fire_slowdown;
