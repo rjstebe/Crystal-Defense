@@ -115,35 +115,39 @@ void GameStart::start() {
         Room* e = EM.addRoom('e', df::Box(df::Vector(-5, 20), 14, 14), false);
         Room* f = EM.addRoom('f', df::Box(df::Vector(-45, 0), 14, 34), true);
         Room* g = EM.addRoom('g', df::Box(df::Vector(-30, -40), 19, 14), true);
-        Room* h = EM.addRoom('h', df::Box(df::Vector(-10, -60), 29, 14), true);
         Room* i = EM.addRoom('i', df::Box(df::Vector(15, -35), 19, 19), true);
         Room* j = EM.addRoom('j', df::Box(df::Vector(40, -30), 19, 54), true);
         Room* k = EM.addRoom('k', df::Box(df::Vector(-40, 40), 69, 14), true);
         Room* l = EM.addRoom('l', df::Box(df::Vector(-25, 20), 14, 9), true);
+        Room* m = EM.addRoom('m', df::Box(df::Vector(-45, -35), 9, 29), true);
+        Room* n = EM.addRoom('n', df::Box(df::Vector(-30, -20), 14, 9), false);
+        Room* o = EM.addRoom('o', df::Box(df::Vector(35, 30), 14, 19), true);
+        Room* p = EM.addRoom('p', df::Box(df::Vector(15, 20), 14, 14), false);
         a->addRoute('b', df::Vector(-10, 2));
         a->addRoute('c', df::Vector(2, -10));
         a->addRoute('d', df::Vector(14, 2));
         a->addRoute('e', df::Vector(2, 14));
         a->addRoute('f', df::Vector(-25, 7));
         a->addRoute('g', df::Vector(-5, -33));
-        a->addRoute('h', df::Vector(2, -40));
         a->addRoute('i', df::Vector(9, -23));
         a->addRoute('j', df::Vector(34, 7));
         a->addRoute('k', df::Vector(7, 34));
         a->addRoute('l', df::Vector(-5, 27));
+        a->addRoute('m', df::Vector(-38, 0));
+        a->addRoute('o', df::Vector(42, 24));
         b->addRoute('a', df::Vector(-16, 2));
         c->addRoute('a', df::Vector(2, -16));
         d->addRoute('a', df::Vector(20, 2));
         e->addRoute('a', df::Vector(2, 20));
         f->addRoute('a', df::Vector(-31, 7));
         g->addRoute('a', df::Vector(-11, -33));
-        h->addRoute('a', df::Vector(2, -46));
         i->addRoute('a', df::Vector(15, -23));
         j->addRoute('a', df::Vector(40, 7));
         k->addRoute('a', df::Vector(7, 40));
         l->addRoute('a', df::Vector(-11, 27));
+        m->addRoute('a', df::Vector(-38, -6));
+        o->addRoute('a', df::Vector(42, 30));
     }
-
 
     started = 1;
     this->setPosition(df::Vector(-300, -300));
@@ -177,8 +181,7 @@ void GameStart::setWalls() {
     new Wall(df::Vector(-15, 5), df::Vector(-11, 5));
 
     // room 'c'
-    new Wall(df::Vector(-6, -41), df::Vector(-1, -41));
-    new Wall(df::Vector(5, -41), df::Vector(10, -41));
+    new Wall(df::Vector(-6, -41), df::Vector(10, -41));
     new Wall(df::Vector(-6, -15), df::Vector(-1, -15));
     new Wall(df::Vector(5, -15), df::Vector(10, -15));
     new Wall(df::Vector(-6, -41), df::Vector(-6, -36));
@@ -214,6 +217,59 @@ void GameStart::setWalls() {
     new Wall(df::Vector(-1, 15), df::Vector(-1, 19));
     new Wall(df::Vector(5, 15), df::Vector(5, 19));
 
+    // room 'f'
+    new Wall(df::Vector(-46, -1), df::Vector(-41, -1));
+    new Wall(df::Vector(-35, -1), df::Vector(-30, -1));
+    new Wall(df::Vector(-46, 35), df::Vector(-41, 35));
+    new Wall(df::Vector(-35, 35), df::Vector(-30, 35));
+    new Wall(df::Vector(-46, -1), df::Vector(-46, 35));
+    new Wall(df::Vector(-30, -1), df::Vector(-30, 4));
+    new Wall(df::Vector(-30, 10), df::Vector(-30, 24));
+    new Wall(df::Vector(-30, 30), df::Vector(-30, 35));
+
+    // hall between 'b' and 'f'
+    new Wall(df::Vector(-30, 4), df::Vector(-26, 4));
+    new Wall(df::Vector(-30, 10), df::Vector(-26, 10));
+
+    // room 'g'
+    new Wall(df::Vector(-31, -41), df::Vector(-10, -41));
+    new Wall(df::Vector(-31, -25), df::Vector(-26, -25));
+    new Wall(df::Vector(-20, -25), df::Vector(-10, -25));
+    new Wall(df::Vector(-31, -41), df::Vector(-31, -31));
+    new Wall(df::Vector(-10, -41), df::Vector(-10, -36));
+    new Wall(df::Vector(-10, -30), df::Vector(-10, -25));
+
+    // hall between 'c' and 'g'
+    new Wall(df::Vector(-10, -36), df::Vector(-6, -36));
+    new Wall(df::Vector(-10, -30), df::Vector(-6, -30));
+
+    // room 'i'
+    new Wall(df::Vector(14, -36), df::Vector(35, -36));
+    new Wall(df::Vector(14, -15), df::Vector(35, -15));
+    new Wall(df::Vector(14, -36), df::Vector(14, -26));
+    new Wall(df::Vector(14, -20), df::Vector(14, -15));
+    new Wall(df::Vector(35, -36), df::Vector(35, -26));
+    new Wall(df::Vector(35, -20), df::Vector(35, -15));
+
+    // hall between 'c' and 'i'
+    new Wall(df::Vector(10, -26), df::Vector(14, -26));
+    new Wall(df::Vector(10, -20), df::Vector(14, -20));
+
+    // room 'j'
+    new Wall(df::Vector(39, -31), df::Vector(60, -31));
+    new Wall(df::Vector(45, 25), df::Vector(60, 25));
+    new Wall(df::Vector(39, -31), df::Vector(39, -26));
+    new Wall(df::Vector(39, -20), df::Vector(39, 4));
+    new Wall(df::Vector(39, 10), df::Vector(39, 25));
+    new Wall(df::Vector(60, -31), df::Vector(60, 25));
+
+    // hall between 'd' and 'j'
+    new Wall(df::Vector(35, 4), df::Vector(39, 4));
+    new Wall(df::Vector(35, 10), df::Vector(39, 10));
+
+    // hall between 'i' and 'j'
+    new Wall(df::Vector(35, -26), df::Vector(39, -26));
+    new Wall(df::Vector(35, -20), df::Vector(39, -20));
     // room 'm'
     new Wall(df::Vector(-35, -25), df::Vector(-35, -1));
     new Wall(df::Vector(-41, -5), df::Vector(-41, -1));
@@ -232,12 +288,6 @@ void GameStart::setWalls() {
     new Wall(df::Vector(35, 50), df::Vector(51, 50));
     new Wall(df::Vector(51, 50), df::Vector(51, 29));
     new Wall(df::Vector(46, 29), df::Vector(51, 29));
-
-    // room 'p'
-    new Wall(df::Vector(14, 19), df::Vector(31, 19));
-    new Wall(df::Vector(31, 19), df::Vector(31, 35));
-    new Wall(df::Vector(14, 35), df::Vector(24, 35));
-    new Wall(df::Vector(14, 19), df::Vector(14, 35));
 }
 
 int GameStart::draw() {
