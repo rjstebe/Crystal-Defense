@@ -119,6 +119,10 @@ void GameStart::start() {
         Room* j = EM.addRoom('j', df::Box(df::Vector(40, -30), 19, 54), true);
         Room* k = EM.addRoom('k', df::Box(df::Vector(-40, 40), 69, 14), true);
         Room* l = EM.addRoom('l', df::Box(df::Vector(-25, 20), 14, 9), true);
+        Room* m = EM.addRoom('m', df::Box(df::Vector(-45, -35), 9, 29), true);
+        Room* n = EM.addRoom('n', df::Box(df::Vector(-30, -20), 14, 9), false);
+        Room* o = EM.addRoom('o', df::Box(df::Vector(35, 30), 14, 19), true);
+        Room* p = EM.addRoom('p', df::Box(df::Vector(15, 20), 14, 14), false);
         a->addRoute('b', df::Vector(-10, 2));
         a->addRoute('c', df::Vector(2, -10));
         a->addRoute('d', df::Vector(14, 2));
@@ -129,6 +133,8 @@ void GameStart::start() {
         a->addRoute('j', df::Vector(34, 7));
         a->addRoute('k', df::Vector(7, 34));
         a->addRoute('l', df::Vector(-5, 27));
+        a->addRoute('m', df::Vector(-38, 0));
+        a->addRoute('o', df::Vector(42, 24));
         b->addRoute('a', df::Vector(-16, 2));
         c->addRoute('a', df::Vector(2, -16));
         d->addRoute('a', df::Vector(20, 2));
@@ -139,6 +145,8 @@ void GameStart::start() {
         j->addRoute('a', df::Vector(40, 7));
         k->addRoute('a', df::Vector(7, 40));
         l->addRoute('a', df::Vector(-11, 27));
+        m->addRoute('a', df::Vector(-38, -6));
+        o->addRoute('a', df::Vector(42, 30));
     }
 
     started = 1;
